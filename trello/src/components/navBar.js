@@ -26,7 +26,7 @@ class NavBar extends Component {
     }
 
     onClickAdd = () => {
-        this.setState(prev => ({ showAddInput: !prev.showAddInput }))
+        this.setState(prev => ({ showAddInput: !prev.showAddInput ,title:''}))
     }
 
     onTitleChange = (e) => {
