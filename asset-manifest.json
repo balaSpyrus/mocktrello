@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/mock-trello/static/css/main.9f7569b9.chunk.css",
+    "main.js": "/mock-trello/static/js/main.8f511f93.chunk.js",
+    "main.js.map": "/mock-trello/static/js/main.8f511f93.chunk.js.map",
+    "runtime~main.js": "/mock-trello/static/js/runtime~main.e9436fc4.js",
+    "runtime~main.js.map": "/mock-trello/static/js/runtime~main.e9436fc4.js.map",
+    "static/js/2.6cac85e2.chunk.js": "/mock-trello/static/js/2.6cac85e2.chunk.js",
+    "static/js/2.6cac85e2.chunk.js.map": "/mock-trello/static/js/2.6cac85e2.chunk.js.map",
+    "index.html": "/mock-trello/index.html",
+    "precache-manifest.cef936f875eda1757ec8fcd6884b094c.js": "/mock-trello/precache-manifest.cef936f875eda1757ec8fcd6884b094c.js",
+    "service-worker.js": "/mock-trello/service-worker.js",
+    "static/css/main.9f7569b9.chunk.css.map": "/mock-trello/static/css/main.9f7569b9.chunk.css.map"
+  }
+}
