@@ -20,10 +20,10 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount(){
-    if(mockData){
+  componentDidMount() {
+    if (mockData) {
       this.setState({
-        selectedBoard:Object.keys(mockData)[0]
+        selectedBoard: Object.keys(mockData)[0]
       })
     }
   }
