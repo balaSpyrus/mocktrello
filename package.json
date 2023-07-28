@@ -1,6 +1,7 @@
 {
   "name": "trello",
   "version": "0.1.0",
+  "homepage": "https://balaSpyrus.github.io/mock-trello",
   "private": true,
   "dependencies": {
     "immutability-helper": "^3.0.1",
@@ -15,6 +16,8 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+   "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -42,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
   }
 }
