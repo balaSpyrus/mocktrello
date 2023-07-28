@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/mock-trello/static/css/main.9f7569b9.chunk.css",
-    "main.js": "/mock-trello/static/js/main.8f511f93.chunk.js",
-    "main.js.map": "/mock-trello/static/js/main.8f511f93.chunk.js.map",
-    "runtime~main.js": "/mock-trello/static/js/runtime~main.e9436fc4.js",
-    "runtime~main.js.map": "/mock-trello/static/js/runtime~main.e9436fc4.js.map",
-    "static/js/2.6cac85e2.chunk.js": "/mock-trello/static/js/2.6cac85e2.chunk.js",
-    "static/js/2.6cac85e2.chunk.js.map": "/mock-trello/static/js/2.6cac85e2.chunk.js.map",
-    "index.html": "/mock-trello/index.html",
-    "precache-manifest.cef936f875eda1757ec8fcd6884b094c.js": "/mock-trello/precache-manifest.cef936f875eda1757ec8fcd6884b094c.js",
-    "service-worker.js": "/mock-trello/service-worker.js",
-    "static/css/main.9f7569b9.chunk.css.map": "/mock-trello/static/css/main.9f7569b9.chunk.css.map"
+    "main.css": "/mocktrello/static/css/main.9f7569b9.chunk.css",
+    "main.js": "/mocktrello/static/js/main.21fa94f3.chunk.js",
+    "main.js.map": "/mocktrello/static/js/main.21fa94f3.chunk.js.map",
+    "runtime~main.js": "/mocktrello/static/js/runtime~main.e176ebdb.js",
+    "runtime~main.js.map": "/mocktrello/static/js/runtime~main.e176ebdb.js.map",
+    "static/js/2.6cac85e2.chunk.js": "/mocktrello/static/js/2.6cac85e2.chunk.js",
+    "static/js/2.6cac85e2.chunk.js.map": "/mocktrello/static/js/2.6cac85e2.chunk.js.map",
+    "index.html": "/mocktrello/index.html",
+    "precache-manifest.5539ad94bb5ef23760596cec61a23c32.js": "/mocktrello/precache-manifest.5539ad94bb5ef23760596cec61a23c32.js",
+    "service-worker.js": "/mocktrello/service-worker.js",
+    "static/css/main.9f7569b9.chunk.css.map": "/mocktrello/static/css/main.9f7569b9.chunk.css.map"
   }
 }
