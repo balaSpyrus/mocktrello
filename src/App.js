@@ -26,7 +26,7 @@ class App extends React.Component {
   }
 
   getMockData = async () => {
-    const data = await fetch(process.env.PUBLIC_URL + (process.env.NODE_ENV === 'development' ? "" : "/") + 'mock-data.json').then(data => data.json())
+    const data = await fetch(process.env.PUBLIC_URL + '/mock-data.json').then(data => data.json())
     this.setState((_prev) => ({
       dashboard: data,
       selectedBoard: Object.keys(data)[0]
