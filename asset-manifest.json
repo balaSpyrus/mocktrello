@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/mocktrello/static/css/main.c48c696c.chunk.css",
-    "main.js": "/mocktrello/static/js/main.0e9e748f.chunk.js",
-    "main.js.map": "/mocktrello/static/js/main.0e9e748f.chunk.js.map",
+    "main.js": "/mocktrello/static/js/main.f29700a8.chunk.js",
+    "main.js.map": "/mocktrello/static/js/main.f29700a8.chunk.js.map",
     "runtime~main.js": "/mocktrello/static/js/runtime~main.e176ebdb.js",
     "runtime~main.js.map": "/mocktrello/static/js/runtime~main.e176ebdb.js.map",
     "static/js/2.49facaee.chunk.js": "/mocktrello/static/js/2.49facaee.chunk.js",
     "static/js/2.49facaee.chunk.js.map": "/mocktrello/static/js/2.49facaee.chunk.js.map",
     "index.html": "/mocktrello/index.html",
-    "precache-manifest.790566bc2ef41fadf2eca5dc594c7ed2.js": "/mocktrello/precache-manifest.790566bc2ef41fadf2eca5dc594c7ed2.js",
+    "precache-manifest.1f2fb5705ff0ba3cc1b24e2cc7503238.js": "/mocktrello/precache-manifest.1f2fb5705ff0ba3cc1b24e2cc7503238.js",
     "service-worker.js": "/mocktrello/service-worker.js",
     "static/css/main.c48c696c.chunk.css.map": "/mocktrello/static/css/main.c48c696c.chunk.css.map"
   }

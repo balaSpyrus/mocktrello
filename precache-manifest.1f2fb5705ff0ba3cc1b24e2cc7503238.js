@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5c6f706596857e29f9ec9f7ea561e870",
+    "revision": "fbea7bdeea61aa13854d4ea366eed297",
     "url": "/mocktrello/index.html"
   },
   {
-    "revision": "c1f91b1125cf9334e56b",
+    "revision": "e93a5faf2101305eece6",
     "url": "/mocktrello/static/css/main.c48c696c.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/mocktrello/static/js/2.49facaee.chunk.js"
   },
   {
-    "revision": "c1f91b1125cf9334e56b",
-    "url": "/mocktrello/static/js/main.0e9e748f.chunk.js"
+    "revision": "e93a5faf2101305eece6",
+    "url": "/mocktrello/static/js/main.f29700a8.chunk.js"
   },
   {
     "revision": "e7b04ad3cbd04f884f4c",
