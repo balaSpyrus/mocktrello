@@ -13,7 +13,7 @@
     "react-dom": "^16.8.6",
     "react-drag-and-drop": "^3.0.0",
     "react-modal": "^3.16.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "predeploy": "npm run build",
