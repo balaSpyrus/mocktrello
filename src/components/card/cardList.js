@@ -1,9 +1,9 @@
 import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Card from './card';
-import AddOne from './addOne';
-import './list.css'
-import { EditCardModal } from '.';
+import AddCard from './addCard';
+import './cardList.css'
+import EditCardModal from '../modals/editCardModal';
 
 
 class List extends React.Component {
@@ -34,7 +34,7 @@ class List extends React.Component {
         list.cards.push({
             id: new Date().getTime(),
             title,
-            priority:0,
+            priority: 0,
             description: '',
             comments: []
         })
@@ -72,7 +72,7 @@ class List extends React.Component {
         const dragCard = list.cards[dragIndex]
         list.cards.splice(dragIndex, 1);
         list.cards.splice(hoverIndex, 0, dragCard);
-       
+
         this.props.updateDashBoard(list)
 
     }
@@ -83,16 +83,14 @@ class List extends React.Component {
         this.props.updateDashBoard(list)
     }
 
-    onToggle =()=>this.setState(prev=>({isAddingCard:!prev.isAddingCard}))
+    onToggle = () => this.setState(prev => ({ isAddingCard: !prev.isAddingCard }))
 
     render() {
         return (
             <div className='list'>
-                <div className='tite-container'>
-                    <span className=' left-float'>{this.state.list.title}</span>
-                    <div className=' right-float'>
-                        <span className='btn-c red' onClick={() => this.props.onDelete(this.state.list.id)}>&#x2716;</span>
-                    </div>
+                <div className='title-container'>
+                    <span >{this.state.list.title}</span>
+                    <span className='btn-c red' onClick={() => this.props.onDelete(this.state.list.id)}>&#x2716;</span>
                 </div>
                 <div className='card-container'>
                     <Scrollbars
@@ -124,11 +122,11 @@ class List extends React.Component {
                     </Scrollbars>
                 </div>
                 <div className='btn-container'>
-                        <AddOne
-                            addingFor='add a card...'
-                            onSave={this.addCard}
-                            onToggle={this.onToggle}
-                        />
+                    <AddCard
+                        addingFor='add a card...'
+                        onSave={this.addCard}
+                        onToggle={this.onToggle}
+                    />
                 </div>
                 {
                     this.state.expandedCard &&

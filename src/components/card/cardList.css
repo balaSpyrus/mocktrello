@@ -1,0 +1,91 @@
+.list-section {
+  margin-top: 50px;
+  height: calc(100% - 15px);
+  width: calc(100% - 30px);
+  padding: 15px 15px 0px 15px;
+}
+
+.list-container {
+  display: flex;
+  gap:16px;
+  height: calc(100% - 15px);
+}
+
+.list-container>.add-one-mini, .list-container>.add-one-element {
+  background: #dfdfdf;
+  border: 1px solid #b3b3b3;
+  padding:12px;
+  width: 214px;
+  min-width: 214px;
+  border-radius: 4px;
+}
+
+.list-container>.add-one-element:hover {
+  background: #c6c6c6;
+}
+
+.list {
+  min-width: 240px;
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  gap:8px;
+  background: #dfdfdf;
+  border: 1px solid #b3b3b3;
+  box-shadow: 2px 6px 5px 1px #cfc8c8;
+  color: #3b3b3b;
+  border-radius: 4px;
+}
+
+.list:last-child {
+  margin-right: 30px;
+}
+
+.btn-container {
+  padding: 0px 12px 12px 12px;
+}
+
+a.add-one-element {
+  text-decoration: none;
+  color: #444242;
+  align-self: flex-start;
+  font-size: 14px;
+
+}
+
+.title-container {
+  padding: 12px;
+  font-weight: 900;
+  text-transform: capitalize;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-one-mini {
+  display: flex;
+  align-self: flex-start;
+  flex-direction: column;
+  gap:8px;
+
+}
+
+.add-one-mini>input {
+  width: calc(100% - 16px);
+  height: 32px;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.add-one-mini>div {
+  display: flex;
+  align-self: flex-end;
+  gap:8px
+}
+
+.card-container .scroll>div:first-child{
+  display: flex;
+  flex-direction: column;
+  padding:0px 12px 12px 12px;
+  gap:16px
+}

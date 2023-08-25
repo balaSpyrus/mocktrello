@@ -54,29 +54,29 @@ const cardTarget = {
 
 
 class Card extends React.Component {
- 
+
     static defaultProps = {
         card: null
     }
 
-    getTitleColor=(priority)=>{
-        let classNames=['card-title']
+    getTitleColor = (priority) => {
+        let classNames = ['card-title']
 
-        switch(priority+''){
-            case '1' : classNames.push('investigate')
-            break;
-            case '2' : classNames.push('in-progress')
-            break;
-            case '3' : classNames.push('done')
-            break;
-            case '4' : classNames.push('critical')
-            break;
-            case '5' : classNames.push('hold')
-            break;
-            default:classNames.push('new')
-            break;
+        switch (priority + '') {
+            case '1': classNames.push('investigate')
+                break;
+            case '2': classNames.push('in-progress')
+                break;
+            case '3': classNames.push('done')
+                break;
+            case '4': classNames.push('critical')
+                break;
+            case '5': classNames.push('hold')
+                break;
+            default: classNames.push('new')
+                break;
         }
-        
+
         return classNames.join(' ')
     }
     render() {
@@ -94,16 +94,16 @@ class Card extends React.Component {
             connectDropTarget &&
             connectDragSource(
                 connectDropTarget(
-                    card ? <div className={isDragging ? 'card card-drag' : 'card'}>
-                        <span className='card-delete' onClick={() => this.props.deleteCard(card.id)}>&#x2716;</span>
-                        <div title={card.description} onClick={this.props.expandCard}>
-                            <span className={this.getTitleColor(card.priority)}> {card.title}  </span>
-                            <div className='card-comment-count'>
-                                {
-                                    card.comments.length ?
-                                        <i>{`${card.comments.length} comment(s)`}</i> : <i>Be the first to comment</i>
-                                }
-                            </div>
+                    card ? <div className={isDragging ? 'card card-drag' : 'card'} onClick={this.props.expandCard}>
+                        <div className={this.getTitleColor(card.priority)}>
+                            <span > {card.title}  </span>
+                            <span onClick={() => this.props.deleteCard(card.id)}>&#x2716;</span>
+                        </div>
+                        <div className='card-comment-count' title={card.description}>
+                            {
+                                card.comments.length ?
+                                    <i>{`${card.comments.length} comment(s)`}</i> : <i>Be the first to comment</i>
+                            }
                         </div>
                     </div> : <div className='no-card' onMouseDown={e => e.preventDefault()}><i>No Card(s) available</i></div>
                 ))

@@ -3,7 +3,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import './App.css';
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { mockData, NavBar, AddOne, List } from './components';
+import { NavBar, AddCard, List } from './components';
 
 
 class App extends React.Component {
@@ -15,17 +15,23 @@ class App extends React.Component {
         version: '2.0'
       },
       selectedBoard: '',
-      dashboard: mockData,
+      dashboard: {},
       currentHoverListID: null
     }
   }
 
   componentDidMount() {
-    if (mockData) {
-      this.setState({
-        selectedBoard: Object.keys(mockData)[0]
-      })
-    }
+
+    this.getMockData();
+  }
+
+  getMockData = async () => {
+    const data = await fetch(process.env.PUBLIC_URL + 'mock-data.json').then(data => data.json())
+    this.setState((_prev) => ({
+      dashboard: data,
+      selectedBoard: Object.keys(data)[0]
+    }))
+
   }
 
   addList = (title) => {
@@ -130,6 +136,11 @@ class App extends React.Component {
   }
 
   render() {
+
+    if (Object.keys(this.state.dashboard).length === 0) {
+      return <></>
+    }
+
     return (
       <div className="App" >
         < NavBar
@@ -165,7 +176,7 @@ class App extends React.Component {
                     updateDashBoard={this.updateDashBoard}
                     onDelete={this.deleteList} />)
                 }
-                <AddOne
+                <AddCard
                   addingFor='add a new list...'
                   onSave={this.addList}
                 />

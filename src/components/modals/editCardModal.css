@@ -1,12 +1,17 @@
 .edit-modal-title {
-    position: relative;
-    margin-top: 0px;
-    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: capitalize;
     background: #3081b0;
-    padding: 10px;
+    padding: 12px;
     border-radius: 4px;
     color: white;
 }
+
+.model-label {
+    color: #4a4a4a;
+  }
 
 .edit-modal-title h2 {
     margin: 0;
@@ -17,7 +22,6 @@
     height: 30px;
     width: calc(100% - 55px);
     border-radius: 4px;
-    border: none;
     padding: 3px 10px;
     font-size: 20px;
     color: #616161;
@@ -35,52 +39,59 @@
 }
 
 .card-desc {
-    position: relative;
-    min-height: 25px;
-    max-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     overflow: auto;
     background: #bdbaba;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 4px;
     color: #454545;
 }
 
 .status-list {
     width: 100%;
-    background: #bdbaba;
     color: #474747;
+    text-transform: capitalize;
 }
 
 .card-comment-container {
-    padding: 10px 0px 10px 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap:8px;
     font-weight: 700;
     background: #a8d3c5;
-    border-radius: 5px;
+    border-radius: 4px;
+}
+
+.card-comment-container .scroll>div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap:8px;
 }
 
 .card-comment-container .comment {
     position: relative;
     display: block;
-    padding: 5px 10px;
+    padding: 4px 8px;
     background: #759d90;
-    margin-bottom: 10px;
     color: white;
+    font-size: 12px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    border-radius: 19px;
-    margin-right: 10px;
+    border-radius: 20px;
 }
 
 .add-comment {
-    width: calc(100% - 34px);
-    height: 25px;
+    height: 24px;
     border: none;
-    border-radius: 3px;
-    padding: 3px 12px;
+    border-radius: 4px;
+    padding: 4px 8px;
     background: #737373;
     color: white;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .add-comment::placeholder {

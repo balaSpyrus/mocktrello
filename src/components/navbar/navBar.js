@@ -26,7 +26,7 @@ class NavBar extends Component {
     }
 
     onClickAdd = () => {
-        this.setState(prev => ({ showAddInput: !prev.showAddInput ,title:''}))
+        this.setState(prev => ({ showAddInput: !prev.showAddInput, title: '' }))
     }
 
     onTitleChange = (e) => {
@@ -62,17 +62,16 @@ class NavBar extends Component {
                             </button>
                     }
                     {
-                        this.props.dashboardList.length ? <select onChange={this.props.onDashboardChange} className='select-list dashboard-list'>
+                        this.props.dashboardList.length ? <select onChange={this.props.onDashboardChange} className='select-list dashboard-list' value={this.props.selectedBoard}>
 
                             {
                                 this.props.dashboardList
                                     .map((dashboard, i) => <option
                                         key={i}
-                                        selected={dashboard === this.props.selectedBoard}
                                         value={dashboard}>
                                         {dashboard + ' dashboard'}</option>)
                             }
-                        </select>:null
+                        </select> : null
                     }
                 </div>
             </div>

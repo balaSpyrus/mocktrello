@@ -1,20 +1,15 @@
-.card-container {
-  padding-left: 12px;
-}
-
 .card {
   position: relative;
-  border-radius: 2px;
-  min-height: 60px;
   background: white;
   cursor: pointer;
-  margin: 5px 12px 15px 0px;
-  border-radius: 5px;
+  border-radius:4px;
+  display: flex;
+  flex-direction: column;
   box-shadow: 2px 2px 6px 1px #b2a9a9;
 }
 
 .card:hover {
-  background: #c6c6c6;
+  background: #f3f3f3;
 }
 
 .card:last-child {
@@ -27,13 +22,15 @@
 }
 
 .card-title {
-  display: block;
-  padding: 5px 30px 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
   font-weight: 700;
   color: white;
   text-transform: capitalize;
-  font-size: 13px;
-  border-radius: 5px;
+  font-size: 12px;
+  border-radius: 4px 4px 0px 0px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -64,11 +61,11 @@
 }
 
 .card-comment-count {
-  padding: 5px;
-  float: right;
+  padding: 12px;
+  align-self: flex-end;
 }
 
-.comment-delete, .card-delete {
+.comment-delete {
   padding: 0px 3px;
   cursor: pointer;
   position: absolute;

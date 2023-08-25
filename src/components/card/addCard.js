@@ -10,12 +10,12 @@ class AddOne extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.isAddingOne !== nextProps.isAddingOne){
+        if (this.props.isAddingOne !== nextProps.isAddingOne) {
             this.setState({
                 isAddingOne: nextProps.isAddingOne
             })
         }
-       
+
     }
 
     toggleBtn = () => {
@@ -55,9 +55,11 @@ class AddOne extends React.Component {
 
             this.state.isAddingOne ?
                 <div className='add-one-mini'>
-                    <input type='text' placeholder={this.props.addingFor} value={this.state.title} onChange={this.onTitleChange} onKeyPress={this.onEnterPress} />
-                    <button className='btn-c blue' onClick={this.state.title ? this.onSave : null}>&#x2714;</button>
-                    <button className='btn-c red' onClick={this.toggleBtn}>&#x2716;</button>
+                    <input type='text' placeholder={this.props.addingFor} autoFocus value={this.state.title} onChange={this.onTitleChange} onKeyPress={this.onEnterPress} />
+                    <div>
+                        <button className='btn-c blue' onClick={this.state.title ? this.onSave : null}>&#x2714;</button>
+                        <button className='btn-c red' onClick={this.toggleBtn}>&#x2716;</button>
+                    </div>
                 </div>
                 :
                 <a href='/#' className='add-one-element' onClick={this.toggleBtn}>{this.props.addingFor}</a>
