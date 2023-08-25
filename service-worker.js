@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/mocktrello/precache-manifest.5539ad94bb5ef23760596cec61a23c32.js"
+  "/mocktrello/precache-manifest.790566bc2ef41fadf2eca5dc594c7ed2.js"
 );
 
 self.addEventListener('message', (event) => {
