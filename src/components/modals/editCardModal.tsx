@@ -4,11 +4,19 @@ import Modal from "react-modal";
 import "./editCardModal.css";
 import { cloneDeep } from "lodash";
 import { CardType } from "../../types";
+import { StyledSelect } from "../../styled/common";
+import styled from "styled-components";
 
 interface Props {
   card: CardType;
   onClose: (cardToSave?: CardType) => void;
 }
+
+const StyledModalSelect = styled(StyledSelect)`
+  width: 100%;
+  color: #474747;
+  text-transform: capitalize;
+`;
 
 const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
   const [card, setCard] = useState(cloneDeep(cardFromProps));
@@ -95,11 +103,10 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
       </div>
       <div>
         <label className="model-label">status</label>
-        <select
+        <StyledModalSelect
           value={card.priority}
           name="priority"
           onChange={onChange}
-          className="select-list status-list"
         >
           <option value={0}>new</option>
           <option value={1}>investigate</option>
@@ -107,7 +114,7 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
           <option value={3}>done</option>
           <option value={4}>critical</option>
           <option value={5}>hold</option>
-        </select>
+        </StyledModalSelect>
       </div>
       <div>
         <label className="model-label">comments</label>

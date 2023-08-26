@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import "./nav.css";
 import { TitleType } from "../../types";
+import { StyledSelect, caratURL } from "../../styled/common";
+import styled from "styled-components";
 
 interface Props {
   titleInfo?: TitleType;
@@ -9,6 +11,13 @@ interface Props {
   onDashboardChange: React.ChangeEventHandler<HTMLSelectElement>;
   selectedBoard?: string;
 }
+
+const StyledNavSelect = styled(StyledSelect)`
+  color: white;
+  border-color: white;
+  text-transform: capitalize;
+  background: url("${caratURL("white")}") no-repeat;
+`;
 
 const NavBar: React.FC<Props> = ({
   titleInfo,
@@ -51,7 +60,7 @@ const NavBar: React.FC<Props> = ({
   };
 
   return (
-    <div id="navbar">
+    <nav id="navbar">
       {Title}
       <div className="nav-right">
         {showAddInput ? (
@@ -73,20 +82,16 @@ const NavBar: React.FC<Props> = ({
           </button>
         )}
         {dashboardList.length ? (
-          <select
-            onChange={onDashboardChange}
-            className="select-list dashboard-list"
-            value={selectedBoard}
-          >
+          <StyledNavSelect onChange={onDashboardChange} value={selectedBoard}>
             {dashboardList.map((dashboard, i) => (
               <option key={i} value={dashboard}>
                 {dashboard + " dashboard"}
               </option>
             ))}
-          </select>
+          </StyledNavSelect>
         ) : null}
       </div>
-    </div>
+    </nav>
   );
 };
 
