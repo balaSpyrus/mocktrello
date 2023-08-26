@@ -6,21 +6,18 @@ import EditCardModal from "../modals/editCardModal";
 import AddCard from "./addCard";
 import Card from "./card";
 import "./cardList.css";
+import { Droppable } from "react-beautiful-dnd";
 
 interface Props {
   list: DashBoardDataType[0][0] | null;
   updateDashBoard: (data: DashBoardDataType[0][0]) => void;
   onDelete: (id: number) => void;
-  onHoverList: any;
-  handleDrop: any;
 }
 
 const List: React.FC<Props> = ({
   list: listFromProps = null,
   updateDashBoard,
   onDelete,
-  onHoverList,
-  handleDrop,
 }) => {
   const [list, setList] = useState(listFromProps);
   const [isAddingCard, setIsAddingCard] = useState(false);
@@ -88,48 +85,51 @@ const List: React.FC<Props> = ({
           &#x2716;
         </span>
       </div>
-      <div className="card-container">
-        <Scrollbars
-          className="scroll"
-          autoHeight
-          autoHeightMin={0}
-          autoHeightMax={
-            isAddingCard ? "calc(100vh - 220px)" : "calc(100vh - 165px)"
-          }
-          renderThumbVertical={({ style, ...props }) => (
-            <div
-              {...props}
-              style={{
-                ...style,
-                backgroundColor: "rgba(49, 49, 49, 0.4)",
-                borderRadius: "3px",
-              }}
-            />
-          )}
-        >
-          {list.cards.length ? (
-            list.cards.map((eachCard, i) => (
-              <Card
-                index={i}
-                listID={list.id}
-                deleteCard={deleteCard}
-                expandCard={() => setExpandedCard(eachCard)}
-                onHoverList={onHoverList}
-                moveCard={moveCard}
-                handleDrop={handleDrop}
-                card={eachCard}
-                key={i}
-              />
-            ))
-          ) : (
-            <Card
-              moveCard={moveCard}
-              onHoverList={onHoverList}
-              handleDrop={handleDrop}
-            />
-          )}
-        </Scrollbars>
-      </div>
+      <Droppable droppableId={list.id + ""} key={list.id + ""}>
+        {({ innerRef, droppableProps, placeholder }) => (
+          <div ref={innerRef} {...droppableProps} className="card-container">
+            <Scrollbars
+              className="scroll"
+              autoHeight
+              autoHeightMin={0}
+              autoHeightMax={
+                isAddingCard ? "calc(100vh - 220px)" : "calc(100vh - 165px)"
+              }
+              renderThumbVertical={({ style, ...props }) => (
+                <div
+                  {...props}
+                  style={{
+                    ...style,
+                    backgroundColor: "rgba(49, 49, 49, 0.4)",
+                    borderRadius: "3px",
+                  }}
+                />
+              )}
+            >
+              {!list.cards.length && (
+                <div
+                  className="no-card"
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  <i>No Card(s) available</i>
+                </div>
+              )}
+              {list.cards.map((eachCard, i) => (
+                <Card
+                  index={i}
+                  listId={list.id}
+                  deleteCard={deleteCard}
+                  expandCard={() => setExpandedCard(eachCard)}
+                  moveCard={moveCard}
+                  card={eachCard}
+                  key={i}
+                />
+              ))}
+              {placeholder}
+            </Scrollbars>
+          </div>
+        )}
+      </Droppable>
       <div className="btn-container">
         <AddCard
           addingFor="add a card..."

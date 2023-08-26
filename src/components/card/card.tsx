@@ -1,74 +1,18 @@
-import flow from "lodash/flow";
 import React from "react";
-import { DragSource, DropTarget } from "react-dnd";
-import { findDOMNode } from "react-dom";
-import "./card.css";
 import { CardType } from "../../types";
-
-const cardSource = {
-  beginDrag(props) {
-    return {
-      id: props.id,
-      listID: props.listID,
-      index: props.index,
-    };
-  },
-  endDrag(props, monitor) {
-    if (!monitor.didDrop() || !props.card) {
-      return;
-    }
-    return props.handleDrop(props.card.id, props.listID);
-  },
-};
-
-const cardTarget = {
-  hover(props, monitor, component) {
-    props.onHoverList(props.listID);
-    const dragIndex = monitor.getItem().index;
-    const hoverIndex = props.index;
-
-    if (dragIndex === hoverIndex) {
-      return;
-    }
-
-    const hoverBoundingRect = (
-      findDOMNode(component) as any
-    ).getBoundingClientRect();
-
-    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-    const clientOffset = monitor.getClientOffset();
-    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-      return;
-    }
-    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-      return;
-    }
-
-    props.moveCard(dragIndex, hoverIndex, props.listID);
-    monitor.getItem().index = hoverIndex;
-  },
-};
+import "./card.css";
+import { Draggable } from "react-beautiful-dnd";
 
 interface Props {
-  card: CardType | null;
+  index: number;
+  listId: number;
+  card: CardType;
   expandCard: () => void;
   deleteCard: (id: number) => void;
-  isDragging: any;
-  connectDragSource: any;
-  connectDropTarget: any;
+  moveCard: any;
 }
 
-const Card: React.FC<Props> = ({
-  card = null,
-  isDragging,
-  // hovered,
-  connectDragSource,
-  connectDropTarget,
-  deleteCard,
-  expandCard,
-}) => {
+const Card: React.FC<Props> = ({ card, deleteCard, expandCard, index }) => {
   const getTitleColor = (priority) => {
     let classNames = ["card-title"];
 
@@ -97,46 +41,30 @@ const Card: React.FC<Props> = ({
   };
 
   return (
-    connectDragSource &&
-    connectDropTarget &&
-    connectDragSource(
-      connectDropTarget(
-        card ? (
-          <div
-            className={isDragging ? "card card-drag" : "card"}
-            onClick={expandCard}
-          >
-            <div className={getTitleColor(card.priority)}>
-              <span> {card.title} </span>
-              <span onClick={() => deleteCard(card.id)}>&#x2716;</span>
-            </div>
-            <div className="card-comment-count" title={card.description}>
-              {card.comments.length ? (
-                <i>{`${card.comments.length} comment(s)`}</i>
-              ) : (
-                <i>Be the first to comment</i>
-              )}
-            </div>
+    <Draggable draggableId={card.id + ""} key={card.id + ""} index={index}>
+      {({ dragHandleProps, draggableProps, innerRef }) => (
+        <div
+          ref={innerRef}
+          className="card"
+          onClick={expandCard}
+          {...dragHandleProps}
+          {...draggableProps}
+        >
+          <div className={getTitleColor(card.priority)}>
+            <span> {card.title} </span>
+            <span onClick={() => deleteCard(card.id)}>&#x2716;</span>
           </div>
-        ) : (
-          <div className="no-card" onMouseDown={(e) => e.preventDefault()}>
-            <i>No Card(s) available</i>
+          <div className="card-comment-count" title={card.description}>
+            {card.comments.length ? (
+              <i>{`${card.comments.length} comment(s)`}</i>
+            ) : (
+              <i>Be the first to comment</i>
+            )}
           </div>
-        )
-      )
-    )
+        </div>
+      )}
+    </Draggable>
   );
 };
 
-export default flow(
-  DragSource("card", cardSource, (connect, monitor) => ({
-    connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging(),
-  })),
-  DropTarget("card", cardTarget, (connect, monitor) => ({
-    connectDropTarget: connect.dropTarget(),
-    hovered: monitor.isOver(),
-    item: monitor.getItem(),
-  }))
-)(Card);
+export default Card;
