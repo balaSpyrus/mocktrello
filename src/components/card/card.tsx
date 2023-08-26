@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ card, deleteCard, expandCard, index }) => {
-  const getTitleColor = (priority) => {
+  const getTitleColor = (priority: number) => {
     let classNames = ["card-title"];
 
     switch (priority + "") {

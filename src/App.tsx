@@ -6,10 +6,9 @@ import {
   Droppable,
   OnDragEndResponder,
 } from "react-beautiful-dnd";
-import { Scrollbars } from "react-custom-scrollbars";
 import "./App.css";
 import { AddCard, List, NavBar } from "./components";
-import { DashBoardDataType, TitleType } from "./types";
+import { CardType, DashBoardDataType, TitleType } from "./types";
 
 const App: React.FC = () => {
   const [titleInfo] = useState<TitleType>({
@@ -54,7 +53,8 @@ const App: React.FC = () => {
       ),
     }));
 
-  const onDashboardChange = (e) => setSelectedBoard(e.target.value);
+  const onDashboardChange: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
+    setSelectedBoard(e.target.value);
 
   const updateDashBoard = (list: DashBoardDataType[0][0]) => {
     let mutatedDashboard = cloneDeep(dashboard);
@@ -85,29 +85,37 @@ const App: React.FC = () => {
       const { destination, source, draggableId } = result;
 
       setDashboard((prev) => {
-        let destList: DashBoardDataType[0][0] = null;
+        let destList: DashBoardDataType[0][0] | undefined = undefined;
         const listToMutate = prev[selectedBoard].find(
           ({ id }) => id === Number(source.droppableId)
         );
-        const cardToMutate = listToMutate.cards.find(
+        const cardToMutate = listToMutate?.cards.find(
           ({ id }) => id === Number(draggableId)
         );
 
-        listToMutate.cards.splice(source.index, 1);
+        listToMutate?.cards.splice(source.index, 1);
 
-        if (destination.droppableId === source.droppableId) {
-          listToMutate.cards.splice(destination.index, 0, cardToMutate);
+        if (destination?.droppableId === source.droppableId) {
+          listToMutate?.cards.splice(
+            destination.index,
+            0,
+            cardToMutate as CardType
+          );
         } else {
           destList = prev[selectedBoard].find(
-            ({ id }) => id === Number(destination.droppableId)
+            ({ id }) => id === Number(destination?.droppableId)
           );
 
-          destList.cards.splice(destination.index, 0, cardToMutate);
+          destList?.cards.splice(
+            destination?.index ?? 0,
+            0,
+            cardToMutate as CardType
+          );
         }
         return {
           ...prev,
           [selectedBoard]: prev[selectedBoard].map((each) =>
-            each.id === listToMutate.id
+            each.id === listToMutate?.id
               ? listToMutate
               : destList?.id === each.id
               ? destList

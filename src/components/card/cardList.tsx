@@ -10,13 +10,13 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 
 interface Props {
   index: number;
-  list: DashBoardDataType[0][0] | null;
+  list: DashBoardDataType[0][0];
   updateDashBoard: (data: DashBoardDataType[0][0]) => void;
   onDelete: (id: number) => void;
 }
 
 const List: React.FC<Props> = ({
-  list: listFromProps = null,
+  list: listFromProps,
   updateDashBoard,
   onDelete,
   index,

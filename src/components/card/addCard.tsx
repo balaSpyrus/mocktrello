@@ -25,7 +25,8 @@ const AddOne: React.FC<Props> = ({
     onToggle?.(!isAddingOne);
   };
 
-  const onTitleChange = (e) => setTitle(e.target.value);
+  const onTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+    setTitle(e.target.value);
 
   const onSave = () => {
     onSaveFromProps?.(title);
@@ -34,7 +35,7 @@ const AddOne: React.FC<Props> = ({
     setIsAddignOne(false);
   };
 
-  const onEnterPress = (e) => {
+  const onEnterPress: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter" && title) {
       onSave();
     }
@@ -51,7 +52,7 @@ const AddOne: React.FC<Props> = ({
         onKeyPress={onEnterPress}
       />
       <div>
-        <button className="btn-c blue" onClick={title ? onSave : null}>
+        <button className="btn-c blue" onClick={title ? onSave : undefined}>
           &#x2714;
         </button>
         <button className="btn-c red" onClick={toggleBtn}>

@@ -37,7 +37,9 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
 
   const onSave = () => onClose?.(card);
 
-  const onChange = (e) => {
+  const onChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  > = (e) => {
     let name = e.target.name;
     let value = e.target.value;
 
@@ -50,10 +52,10 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
   return (
     <Modal
       isOpen={true}
-      onRequestClose={onClose}
+      onRequestClose={() => onClose()}
       className="Modal"
       overlayClassName="Overlay"
-      appElement={document.getElementById("root")}
+      appElement={document.getElementById("root") as HTMLDivElement}
     >
       <div className="edit-modal-title">
         {titleIsOpen ? (

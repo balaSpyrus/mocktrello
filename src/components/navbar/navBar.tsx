@@ -6,7 +6,7 @@ interface Props {
   titleInfo?: TitleType;
   onEnter?: any;
   dashboardList: string[];
-  onDashboardChange: any;
+  onDashboardChange: React.ChangeEventHandler<HTMLSelectElement>;
   selectedBoard?: string;
 }
 
