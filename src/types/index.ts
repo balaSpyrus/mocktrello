@@ -3,6 +3,11 @@ type CommonAttrType = {
   title: string;
 };
 
+export type TitleType = {
+  title: string;
+  version: string;
+};
+
 export type CardType = CommonAttrType & {
   priority: number;
   description: string;

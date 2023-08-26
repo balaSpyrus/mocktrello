@@ -1,11 +1,9 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import "./nav.css";
+import { TitleType } from "../../types";
 
 interface Props {
-  titleInfo?: {
-    title: string;
-    version: string;
-  };
+  titleInfo?: TitleType;
   onEnter?: any;
   dashboardList: string[];
   onDashboardChange: any;
