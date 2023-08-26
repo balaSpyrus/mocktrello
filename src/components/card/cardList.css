@@ -1,15 +1,20 @@
 .list-section {
-  margin-top: 50px;
-  height: calc(100% - 15px);
-  width: calc(100% - 30px);
-  padding: 15px 15px 0px 15px;
+  margin-top: 48px;
+  height: calc(100% - 80px);
+  width: calc(100% - 32px);
+  padding: 16px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
 }
 
 .list-container {
   display: flex;
   gap:16px;
-  height: calc(100% - 15px);
+  overflow: auto;
+  align-items: flex-start;
 }
+
 
 .list-container>.add-one-mini, .list-container>.add-one-element {
   background: #dfdfdf;
@@ -35,6 +40,7 @@
   box-shadow: 2px 6px 5px 1px #cfc8c8;
   color: #3b3b3b;
   border-radius: 4px;
+  max-height: calc(100% - 12px);
 }
 
 .list:last-child {
@@ -88,4 +94,10 @@ a.add-one-element {
   flex-direction: column;
   padding:0px 12px 12px 12px;
   gap:16px
+}
+
+.card-cont-drop {
+  background: white;
+  box-shadow: 2px 6px 10px 10px #cfc8c8;
+  transition: 200ms all ease-in-out;
 }

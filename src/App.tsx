@@ -1,6 +1,11 @@
 import { cloneDeep } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
-import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  DropResult,
+  Droppable,
+  OnDragEndResponder,
+} from "react-beautiful-dnd";
 import { Scrollbars } from "react-custom-scrollbars";
 import "./App.css";
 import { AddCard, List, NavBar } from "./components";
@@ -75,19 +80,9 @@ const App: React.FC = () => {
     setSelectedBoard(Object.keys(mutatedDashboard)[0]);
   };
 
-  const onDragEnd: OnDragEndResponder = useCallback(
-    (result) => {
+  const onCardDrag = useCallback(
+    (result: DropResult) => {
       const { destination, source, draggableId } = result;
-      if (!destination) {
-        return;
-      }
-
-      if (
-        destination.droppableId === source.droppableId &&
-        destination.index === source.index
-      ) {
-        return;
-      }
 
       setDashboard((prev) => {
         let destList: DashBoardDataType[0][0] = null;
@@ -114,7 +109,7 @@ const App: React.FC = () => {
           [selectedBoard]: prev[selectedBoard].map((each) =>
             each.id === listToMutate.id
               ? listToMutate
-              : destList && destList?.id === each.id
+              : destList?.id === each.id
               ? destList
               : each
           ),
@@ -122,6 +117,27 @@ const App: React.FC = () => {
       });
     },
     [selectedBoard]
+  );
+
+  const onDragEnd: OnDragEndResponder = useCallback(
+    (result) => {
+      const { destination, source, type } = result;
+      if (!destination) {
+        return;
+      }
+
+      if (
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+      ) {
+        return;
+      }
+
+      if (type === "card") {
+        onCardDrag(result);
+      }
+    },
+    [onCardDrag]
   );
 
   useEffect(() => {
@@ -150,33 +166,29 @@ const App: React.FC = () => {
             </button>
           </div>
         )}
-        <Scrollbars
-          className="scroll"
-          renderThumbHorizontal={({ style, ...props }) => (
-            <div
-              {...props}
-              style={{
-                ...style,
-                backgroundColor: "rgb(48, 129, 176)",
-                borderRadius: "3px",
-              }}
-            />
-          )}
-        >
-          <div className="list-container">
-            <DragDropContext onDragEnd={onDragEnd}>
-              {dashboard[selectedBoard]?.map((eachList, i) => (
-                <List
-                  key={i}
-                  list={eachList}
-                  updateDashBoard={updateDashBoard}
-                  onDelete={deleteList}
-                />
-              ))}
-            </DragDropContext>
-            <AddCard addingFor="add a new list..." onSave={addList} />
-          </div>
-        </Scrollbars>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="container" direction="horizontal" type="list">
+            {({ droppableProps, placeholder, innerRef }) => (
+              <div
+                className="list-container"
+                ref={innerRef}
+                {...droppableProps}
+              >
+                {dashboard[selectedBoard]?.map((eachList, i) => (
+                  <List
+                    index={i}
+                    key={i}
+                    list={eachList}
+                    updateDashBoard={updateDashBoard}
+                    onDelete={deleteList}
+                  />
+                ))}
+                {placeholder}
+                <AddCard addingFor="add a new list..." onSave={addList} />
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
     </div>
   );

@@ -42,10 +42,10 @@ const Card: React.FC<Props> = ({ card, deleteCard, expandCard, index }) => {
 
   return (
     <Draggable draggableId={card.id + ""} key={card.id + ""} index={index}>
-      {({ dragHandleProps, draggableProps, innerRef }) => (
+      {({ dragHandleProps, draggableProps, innerRef }, { isDragging }) => (
         <div
           ref={innerRef}
-          className="card"
+          className={isDragging ? "card card-drag" : "card"}
           onClick={expandCard}
           {...dragHandleProps}
           {...draggableProps}

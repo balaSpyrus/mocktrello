@@ -2,14 +2,16 @@
   overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: #3081b0;
   position: fixed;
   top: 0;
-  width: 100%;
-  max-height: 30px;
-  min-height: 30px;
-  padding: 10px 10px;
-  box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.3);
+  left: 0;
+  width: calc(100% - 32px);
+  max-height: 32px;
+  min-height: 32px;
+  padding: 8px 16px;
+  box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.3);
   z-index: 100;
 }
 
@@ -18,34 +20,31 @@
   font-weight: 700;
   color: #fff;
   margin: 0;
+}
+
+.nav-right span {
   padding: 0 10px;
 }
 
 .nav-title {
   display: flex;
   align-items: center;
+  gap:4px
 }
 
 #navbar .nav-title>span:nth-child(2) {
   font-size: 12px;
   font-weight: 900;
-  position: relative;
-  display: inline-block;
-  padding: 1px 5px;
-  border-radius: 57px;
+  padding: 2px 4px;
+  border-radius: 16px;
   background: #fff;
   color: #3081b0;
 }
 
 .nav-right {
-  position: absolute;
-  right: 35px;
   display: flex;
   align-items: center;
-}
-
-.nav-right>button {
-  margin-right: 10px;
+  gap:8px
 }
 
 #navbar .nav-right>button span {
