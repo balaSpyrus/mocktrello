@@ -119,14 +119,19 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
       <div>
         <label className="model-label">comments</label>
         <div className="card-comment-container">
-          {card.comments.map((comment, i) => (
-            <span className="comment" key={i}>
-              <i>{comment}</i>
-              <span className="comment-delete" onClick={() => deleteComment(i)}>
-                {CLOSE_ICON_CODE}
+          <div>
+            {card.comments.map((comment, i) => (
+              <span className="comment" key={i}>
+                <i>{comment}</i>
+                <span
+                  className="comment-delete"
+                  onClick={() => deleteComment(i)}
+                >
+                  {CLOSE_ICON_CODE}
+                </span>
               </span>
-            </span>
-          ))}
+            ))}
+          </div>
           <input
             type="text"
             value={comment}
