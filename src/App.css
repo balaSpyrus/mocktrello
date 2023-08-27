@@ -37,26 +37,6 @@ gap: 8px;
   cursor: pointer;
 }
 
-
-
-.btn-c {
-  border-radius: 16px;
-  padding: 4px 6px;
-  border: none;
-  color: white;
-  font-size: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.red {
-  background: #b21a1a !important;
-}
-
-.blue {
-  background: #3081b0 !important;
-}
-
 .dashboard-delete {
   position: absolute;
   bottom: 24px;
@@ -90,17 +70,4 @@ gap: 8px;
 .dashboard-delete:hover>h2 {
   opacity:1;
   transition: all 0.1s ease-in-out;
-}
-
-.add {
-  color: #3081b0;
-  font-size: 25px;
-  padding: 0px 7px;
-  background: white;
-  display: flex;
-  align-items: center;
-}
-
-.add:before {
-  content: ' \002B';
 }

@@ -1,23 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export const COLORS = Object.freeze({
-  RED: "#b21a1a",
-  BLUE: "#3081b0",
-  GREY: "#3b3b3b",
-  WHITE: "#ffffff",
-  LIGHT_GREEN: "#759d90",
-  ORANGE: "#a16a05",
-  SUCCESS: "#3a8b5e",
-  ERROR: "#9f3939",
-  INACTIVE: "grey",
-  WARNING: "#a39e04",
-});
-
-export const theme = {
-  pallete: COLORS,
-};
-
-const GlobalStyles = createGlobalStyle<{ theme?: typeof theme }>`
+const GlobalStyles = createGlobalStyle`
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

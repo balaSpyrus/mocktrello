@@ -1,12 +1,14 @@
 import { cloneDeep } from "lodash";
 import React, { useEffect, useState } from "react";
-import { Scrollbars } from "react-custom-scrollbars";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { CardType, DashBoardDataType } from "../../types";
 import EditCardModal from "../modals/editCardModal";
-import AddCard from "./addCard";
+import AddEntity from "../addEntity";
 import Card from "./card";
 import "./cardList.css";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { CLOSE_ICON_CODE } from "../../constants";
+import { StyledButton } from "../../styled/common";
+import { useTheme } from "styled-components";
 
 interface Props {
   index: number;
@@ -21,8 +23,8 @@ const List: React.FC<Props> = ({
   onDelete,
   index,
 }) => {
+  const theme = useTheme();
   const [list, setList] = useState(listFromProps);
-  const [isAddingCard, setIsAddingCard] = useState(false);
   const [expandedCard, setExpandedCard] = useState<CardType | null>(null);
 
   useEffect(() => {
@@ -77,8 +79,6 @@ const List: React.FC<Props> = ({
     updateDashBoard(mutatedList);
   };
 
-  const onToggle = () => setIsAddingCard((prev) => !prev);
-
   return (
     <Draggable draggableId={list.id + ""} key={list.id + ""} index={index}>
       {({ dragHandleProps, draggableProps, innerRef: dragRef }) => (
@@ -91,61 +91,41 @@ const List: React.FC<Props> = ({
             >
               <div className="title-container" {...dragHandleProps}>
                 <span>{list.title}</span>
-                <span className="btn-c red" onClick={() => onDelete(list.id)}>
-                  &#x2716;
-                </span>
+                <StyledButton
+                  $bgcolor={theme.pallete.ERROR}
+                  onClick={() => onDelete(list.id)}
+                >
+                  {CLOSE_ICON_CODE}
+                </StyledButton>
               </div>
               <div
                 ref={innerRef}
                 {...droppableProps}
                 className={"card-container"}
               >
-                <Scrollbars
-                  className="scroll"
-                  autoHeight
-                  autoHeightMin={0}
-                  autoHeightMax={
-                    isAddingCard ? "calc(100vh - 240px)" : "calc(100vh - 185px)"
-                  }
-                  renderThumbVertical={({ style, ...props }) => (
-                    <div
-                      {...props}
-                      style={{
-                        ...style,
-                        backgroundColor: "rgba(49, 49, 49, 0.4)",
-                        borderRadius: "3px",
-                      }}
-                    />
-                  )}
-                >
-                  {!list.cards.length && (
-                    <div
-                      className="no-card"
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      <i>No Card(s) available</i>
-                    </div>
-                  )}
-                  {list.cards.map((eachCard, i) => (
-                    <Card
-                      index={i}
-                      listId={list.id}
-                      deleteCard={deleteCard}
-                      expandCard={() => setExpandedCard(eachCard)}
-                      moveCard={moveCard}
-                      card={eachCard}
-                      key={i}
-                    />
-                  ))}
-                  {placeholder}
-                </Scrollbars>
+                {!list.cards.length && (
+                  <div
+                    className="no-card"
+                    onMouseDown={(e) => e.preventDefault()}
+                  >
+                    <i>No Card(s) available</i>
+                  </div>
+                )}
+                {list.cards.map((eachCard, i) => (
+                  <Card
+                    index={i}
+                    listId={list.id}
+                    deleteCard={deleteCard}
+                    expandCard={() => setExpandedCard(eachCard)}
+                    moveCard={moveCard}
+                    card={eachCard}
+                    key={i}
+                  />
+                ))}
+                {placeholder}
               </div>
               <div className="btn-container">
-                <AddCard
-                  addingFor="add a card..."
-                  onSave={addCard}
-                  onToggle={onToggle}
-                />
+                <AddEntity infoText="add a card..." onSave={addCard} />
               </div>
               {expandedCard && (
                 <EditCardModal card={expandedCard} onClose={closeModal} />

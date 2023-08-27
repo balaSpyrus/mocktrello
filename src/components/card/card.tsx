@@ -2,6 +2,7 @@ import React from "react";
 import { CardType } from "../../types";
 import "./card.css";
 import { Draggable } from "react-beautiful-dnd";
+import { CLOSE_ICON_CODE } from "../../constants";
 
 interface Props {
   index: number;
@@ -52,7 +53,7 @@ const Card: React.FC<Props> = ({ card, deleteCard, expandCard, index }) => {
         >
           <div className={getTitleColor(card.priority)}>
             <span> {card.title} </span>
-            <span onClick={() => deleteCard(card.id)}>&#x2716;</span>
+            <span onClick={() => deleteCard(card.id)}>{CLOSE_ICON_CODE}</span>
           </div>
           <div className="card-comment-count" title={card.description}>
             {card.comments.length ? (

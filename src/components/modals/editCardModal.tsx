@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useState } from "react";
-import { Scrollbars } from "react-custom-scrollbars";
-import Modal from "react-modal";
-import "./editCardModal.css";
 import { cloneDeep } from "lodash";
+import React, { ChangeEvent, useState } from "react";
+import Modal from "react-modal";
+import styled, { useTheme } from "styled-components";
+import { StyledButton, StyledSelect } from "../../styled/common";
 import { CardType } from "../../types";
-import { StyledSelect } from "../../styled/common";
-import styled from "styled-components";
+import "./editCardModal.css";
+import { CLOSE_ICON_CODE, CONFIRM_ICON_CODE } from "../../constants";
 
 interface Props {
   card: CardType;
@@ -15,10 +15,10 @@ interface Props {
 const StyledModalSelect = styled(StyledSelect)`
   width: 100%;
   color: #474747;
-  text-transform: capitalize;
 `;
 
 const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
+  const theme = useTheme();
   const [card, setCard] = useState(cloneDeep(cardFromProps));
   const [titleIsOpen, setTitleIsOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -119,51 +119,34 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
       <div>
         <label className="model-label">comments</label>
         <div className="card-comment-container">
-          <Scrollbars
-            className="scroll"
-            autoHeight
-            autoHeightMin={0}
-            autoHeightMax={200}
-            renderThumbVertical={({ style, ...props }) => (
-              <div
-                {...props}
-                style={{
-                  ...style,
-                  backgroundColor: "rgba(49, 49, 49, 0.4)",
-                  borderRadius: "3px",
-                }}
-              />
-            )}
-          >
-            {card.comments.map((comment, i) => (
-              <span className="comment" key={i}>
-                <i>{comment}</i>
-                <span
-                  className="comment-delete"
-                  onClick={() => deleteComment(i)}
-                >
-                  &#x2716;
-                </span>
+          {card.comments.map((comment, i) => (
+            <span className="comment" key={i}>
+              <i>{comment}</i>
+              <span className="comment-delete" onClick={() => deleteComment(i)}>
+                {CLOSE_ICON_CODE}
               </span>
-            ))}
-          </Scrollbars>
+            </span>
+          ))}
           <input
             type="text"
             value={comment}
             className="add-comment"
             placeholder="type and press enter to add comment"
             onChange={onInputChange}
-            onKeyPress={addComment}
+            onKeyDown={addComment}
           />
         </div>
       </div>
       <div>
-        <button className="btn-c blue" onClick={onSave}>
-          &#x2714;
-        </button>
-        <button className="btn-c red" onClick={() => onClose?.()}>
-          &#x2716;
-        </button>
+        <StyledButton $bgcolor={theme.pallete.SUCCESS} onClick={onSave}>
+          {CONFIRM_ICON_CODE}
+        </StyledButton>
+        <StyledButton
+          $bgcolor={theme.pallete.ERROR}
+          onClick={() => onClose?.()}
+        >
+          {CLOSE_ICON_CODE}
+        </StyledButton>
       </div>
     </Modal>
   );

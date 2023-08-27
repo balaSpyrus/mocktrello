@@ -51,7 +51,7 @@
   padding: 0px 12px 12px 12px;
 }
 
-a.add-one-element {
+span.add-one-element {
   text-decoration: none;
   color: #444242;
   align-self: flex-start;
@@ -89,7 +89,7 @@ a.add-one-element {
   gap:8px
 }
 
-.card-container .scroll>div:first-child{
+.card-container{
   display: flex;
   flex-direction: column;
   padding:0px 12px 12px 12px;

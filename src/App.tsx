@@ -7,10 +7,14 @@ import {
   OnDragEndResponder,
 } from "react-beautiful-dnd";
 import "./App.css";
-import { AddCard, List, NavBar } from "./components";
+import { AddEntity, List, NavBar } from "./components";
 import { CardType, DashBoardDataType, TitleType } from "./types";
+import { CLOSE_ICON_CODE } from "./constants";
+import { StyledButton } from "./styled/common";
+import { useTheme } from "styled-components";
 
 const App: React.FC = () => {
+  const theme = useTheme();
   const [titleInfo] = useState<TitleType>({
     title: "Trello",
     version: "2.0",
@@ -169,9 +173,9 @@ const App: React.FC = () => {
         {Object.keys(dashboard).length > 1 && (
           <div className="dashboard-delete">
             <h2>delete dashboard</h2>
-            <button className="btn-c red" onClick={deleteBoard}>
-              &#x2716;
-            </button>
+            <StyledButton $bgcolor={theme.pallete.ERROR} onClick={deleteBoard}>
+              {CLOSE_ICON_CODE}
+            </StyledButton>
           </div>
         )}
         <DragDropContext onDragEnd={onDragEnd}>
@@ -192,7 +196,7 @@ const App: React.FC = () => {
                   />
                 ))}
                 {placeholder}
-                <AddCard addingFor="add a new list..." onSave={addList} />
+                <AddEntity infoText="add a new list..." onSave={addList} />
               </div>
             )}
           </Droppable>
