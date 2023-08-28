@@ -93,6 +93,7 @@ span.add-one-element {
   display: flex;
   flex-direction: column;
   padding:0px 12px 12px 12px;
+  overflow: auto;
   gap:16px
 }
 
