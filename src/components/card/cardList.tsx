@@ -1,14 +1,13 @@
-import { cloneDeep } from "lodash";
-import React, { useEffect, useState } from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
-import { CardType, DashBoardDataType } from "../../types";
-import EditCardModal from "../modals/editCardModal";
-import AddEntity from "../addEntity";
-import Card from "./card";
-import "./cardList.css";
-import { CLOSE_ICON_CODE } from "../../constants";
-import { StyledButton } from "../../styled/common";
-import { useTheme } from "styled-components";
+import { cloneDeep } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+import styled, { useTheme } from 'styled-components';
+import { CardType, DashBoardDataType } from '../../types';
+import EditCardModal from '../modals/editCardModal';
+import AddEntity from '../addEntity';
+import Card from './card';
+import { CLOSE_ICON_CODE } from '../../constants';
+import { StyledButton } from '../../styled/common';
 
 interface Props {
   index: number;
@@ -17,12 +16,58 @@ interface Props {
   onDelete: (id: number) => void;
 }
 
-const List: React.FC<Props> = ({
-  list: listFromProps,
-  updateDashBoard,
-  onDelete,
-  index,
-}) => {
+const StyledAddContainer = styled.div`
+  padding: 0px 12px 12px 12px;
+
+  & > * {
+    padding: 8px !important;
+    width: 198px !important;
+    min-width: 198px !important;
+  }
+`;
+
+const StyledListContainer = styled.div<{ $isDraggingOver?: boolean }>`
+  min-width: 240px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: ${({ $isDraggingOver }) => ($isDraggingOver ? 'white' : '#dfdfdf')};
+  border: 1px solid #b3b3b3;
+  box-shadow: ${({ $isDraggingOver }) =>
+    $isDraggingOver ? '2px 6px 10px 10px #cfc8c8' : ' 2px 6px 5px 1px #cfc8c8'};
+  color: #3b3b3b;
+  border-radius: 4px;
+  max-height: calc(100% - 12px);
+  transition: 200ms all ease-in-out;
+`;
+
+const StyledTitleContainer = styled.div`
+  padding: 12px;
+  font-weight: 900;
+  text-transform: capitalize;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StyledCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 12px 12px 12px;
+  overflow: auto;
+  gap: 16px;
+
+  .no-card {
+    padding: 10px 0px;
+    text-align: center;
+    width: calc(100% - 10px);
+    border-radius: 4px;
+    background: #f6f6f6;
+  }
+`;
+
+const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete, index }) => {
   const theme = useTheme();
   const [list, setList] = useState(listFromProps);
   const [expandedCard, setExpandedCard] = useState<CardType | null>(null);
@@ -40,7 +85,7 @@ const List: React.FC<Props> = ({
           id: new Date().getTime(),
           title,
           priority: 0,
-          description: "",
+          description: '',
           comments: [],
         },
       ],
@@ -50,7 +95,7 @@ const List: React.FC<Props> = ({
   };
 
   const closeModal = (card: CardType | null = null) => {
-    let mutatedList = cloneDeep(list);
+    const mutatedList = cloneDeep(list);
 
     if (card) {
       mutatedList.cards = mutatedList.cards.map((eachCard) => {
@@ -64,7 +109,7 @@ const List: React.FC<Props> = ({
   };
 
   const moveCard = (dragIndex: number, hoverIndex: number) => {
-    let mutatedList = cloneDeep(list);
+    const mutatedList = cloneDeep(list);
     const dragCard = mutatedList.cards[dragIndex];
     mutatedList.cards.splice(dragIndex, 1);
     mutatedList.cards.splice(hoverIndex, 0, dragCard);
@@ -72,42 +117,26 @@ const List: React.FC<Props> = ({
   };
 
   const deleteCard = (id: number) => {
-    let mutatedList = cloneDeep(list);
-    mutatedList.cards = mutatedList.cards.filter(
-      (eachCard) => eachCard.id !== id
-    );
+    const mutatedList = cloneDeep(list);
+    mutatedList.cards = mutatedList.cards.filter((eachCard) => eachCard.id !== id);
     updateDashBoard(mutatedList);
   };
 
   return (
-    <Draggable draggableId={list.id + ""} key={list.id + ""} index={index}>
+    <Draggable draggableId={`${list.id}`} key={`${list.id}`} index={index}>
       {({ dragHandleProps, draggableProps, innerRef: dragRef }) => (
-        <Droppable droppableId={list.id + ""} key={list.id + ""} type="card">
+        <Droppable droppableId={`${list.id}`} key={`${list.id}`} type='card'>
           {({ innerRef, droppableProps, placeholder }, { isDraggingOver }) => (
-            <div
-              className={isDraggingOver ? "list card-cont-drop" : "list"}
-              {...draggableProps}
-              ref={dragRef}
-            >
-              <div className="title-container" {...dragHandleProps}>
+            <StyledListContainer {...draggableProps} $isDraggingOver={isDraggingOver} ref={dragRef}>
+              <StyledTitleContainer {...dragHandleProps}>
                 <span>{list.title}</span>
-                <StyledButton
-                  $bgcolor={theme.pallete.ERROR}
-                  onClick={() => onDelete(list.id)}
-                >
+                <StyledButton $bgcolor={theme.pallete.ERROR} onClick={() => onDelete(list.id)}>
                   {CLOSE_ICON_CODE}
                 </StyledButton>
-              </div>
-              <div
-                ref={innerRef}
-                {...droppableProps}
-                className={"card-container"}
-              >
+              </StyledTitleContainer>
+              <StyledCardContainer ref={innerRef} {...droppableProps}>
                 {!list.cards.length && (
-                  <div
-                    className="no-card"
-                    onMouseDown={(e) => e.preventDefault()}
-                  >
+                  <div className='no-card' onMouseDown={(e) => e.preventDefault()}>
                     <i>No Card(s) available</i>
                   </div>
                 )}
@@ -123,14 +152,12 @@ const List: React.FC<Props> = ({
                   />
                 ))}
                 {placeholder}
-              </div>
-              <div className="btn-container">
-                <AddEntity infoText="add a card..." onSave={addCard} />
-              </div>
-              {expandedCard && (
-                <EditCardModal card={expandedCard} onClose={closeModal} />
-              )}
-            </div>
+              </StyledCardContainer>
+              <StyledAddContainer>
+                <AddEntity infoText='add a card...' onSave={addCard} />
+              </StyledAddContainer>
+              {expandedCard && <EditCardModal card={expandedCard} onClose={closeModal} />}
+            </StyledListContainer>
           )}
         </Droppable>
       )}

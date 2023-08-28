@@ -1,19 +1,18 @@
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
-import ReactDOM from "react-dom";
-import App from "./App";
-import "./index.css";
-import * as serviceWorker from "./serviceWorker";
-import { ThemeProvider } from "styled-components";
-import GlobalStyles from "./styled/globalStyles";
-import theme from "./styled/theme";
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import GlobalStyles from './styled/globalStyles';
+import theme from './styled/theme';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <App />
     <GlobalStyles />
   </ThemeProvider>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useMemo, useState } from "react";
-import styled, { useTheme } from "styled-components";
-import { StyledButton, StyledSelect } from "../styled/common";
-import { TitleType } from "../types";
-import { CLOSE_ICON_CODE } from "../constants";
+import React, { ChangeEvent, useMemo, useState } from 'react';
+import styled, { useTheme } from 'styled-components';
+import { StyledButton, StyledSelect } from '../styled/common';
+import { TitleType } from '../types';
+import { CLOSE_ICON_CODE } from '../constants';
 
 interface Props {
   titleInfo?: TitleType;
@@ -23,7 +23,7 @@ const StyledAddBtn = styled(StyledButton)`
   padding: 4px 8px;
 
   &:before {
-    content: "+";
+    content: '+';
     padding-right: 8px;
     font-size: 18px;
     line-height: 16px;
@@ -108,11 +108,11 @@ const NavBar: React.FC<Props> = ({
 }) => {
   const theme = useTheme();
   const [showAddInput, setShowAddInput] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
 
   const Title = useMemo(() => {
-    let title = "Trello",
-      version = "2.0";
+    let title = 'Trello';
+    let version = '2.0';
     if (titleInfo) {
       title = titleInfo.title;
       version = titleInfo.version;
@@ -127,14 +127,13 @@ const NavBar: React.FC<Props> = ({
 
   const onClickAdd = () => {
     setShowAddInput((prev) => !prev);
-    setTitle("");
+    setTitle('');
   };
 
-  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.target.value);
+  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
 
   const onEnterPress: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === "Enter" && title) {
+    if (e.key === 'Enter' && title) {
       onEnter?.(title);
       onClickAdd();
     }
@@ -147,8 +146,8 @@ const NavBar: React.FC<Props> = ({
         {showAddInput ? (
           <div>
             <input
-              type="text"
-              placeholder="type and press to add dashboard"
+              type='text'
+              placeholder='type and press to add dashboard'
               value={title}
               onChange={onTitleChange}
               onKeyDown={onEnterPress}
@@ -167,14 +166,10 @@ const NavBar: React.FC<Props> = ({
           </StyledAddBtn>
         )}
         {dashboardList.length ? (
-          <StyledNavSelect
-            onChange={onDashboardChange}
-            value={selectedBoard}
-            $caratColor="white"
-          >
+          <StyledNavSelect onChange={onDashboardChange} value={selectedBoard} $caratColor='white'>
             {dashboardList.map((dashboard, i) => (
               <option key={i} value={dashboard}>
-                {dashboard + " dashboard"}
+                {`${dashboard} dashboard`}
               </option>
             ))}
           </StyledNavSelect>

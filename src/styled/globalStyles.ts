@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 body {
@@ -59,7 +59,45 @@ input[type=text]::placeholder {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${({ theme }) => theme.pallete.GREY + "99"}
+  background-color: ${({ theme }) => `${theme.pallete.GREY}99`}
+}
+
+.Modal label{
+  margin-bottom: 5px;
+  display: block;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.Modal>div:last-child{
+display: flex;
+align-items: center;
+justify-content: flex-end;
+gap: 8px;
+}
+
+.Modal button {
+  font-size: 18px;
+  border-radius: 20px;
+  padding: 8px 12px;
+}
+
+.close{
+  &:after {
+  content: '\\2716';
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+}
+}
+
+.edit{
+  transform: rotate(108deg);
+  &:after {
+  content: '\\270E';
+  font-size: 16px;
+  cursor: pointer;
+}
 }
 `;
 

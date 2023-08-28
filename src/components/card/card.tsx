@@ -1,8 +1,8 @@
-import React from "react";
-import { CardType } from "../../types";
-import "./card.css";
-import { Draggable } from "react-beautiful-dnd";
-import { CLOSE_ICON_CODE } from "../../constants";
+import React from 'react';
+import { CardType } from '../../types';
+import './card.css';
+import { Draggable } from 'react-beautiful-dnd';
+import { CLOSE_ICON_CODE } from '../../constants';
 
 interface Props {
   index: number;
@@ -15,38 +15,38 @@ interface Props {
 
 const Card: React.FC<Props> = ({ card, deleteCard, expandCard, index }) => {
   const getTitleColor = (priority: number) => {
-    let classNames = ["card-title"];
+    const classNames = ['card-title'];
 
-    switch (priority + "") {
-      case "1":
-        classNames.push("investigate");
+    switch (`${priority}`) {
+      case '1':
+        classNames.push('investigate');
         break;
-      case "2":
-        classNames.push("in-progress");
+      case '2':
+        classNames.push('in-progress');
         break;
-      case "3":
-        classNames.push("done");
+      case '3':
+        classNames.push('done');
         break;
-      case "4":
-        classNames.push("critical");
+      case '4':
+        classNames.push('critical');
         break;
-      case "5":
-        classNames.push("hold");
+      case '5':
+        classNames.push('hold');
         break;
       default:
-        classNames.push("new");
+        classNames.push('new');
         break;
     }
 
-    return classNames.join(" ");
+    return classNames.join(' ');
   };
 
   return (
-    <Draggable draggableId={card.id + ""} key={card.id + ""} index={index}>
+    <Draggable draggableId={`${card.id}`} key={`${card.id}`} index={index}>
       {({ dragHandleProps, draggableProps, innerRef }, { isDragging }) => (
         <div
           ref={innerRef}
-          className={isDragging ? "card card-drag" : "card"}
+          className={isDragging ? 'card card-drag' : 'card'}
           onClick={expandCard}
           {...dragHandleProps}
           {...draggableProps}
@@ -55,7 +55,7 @@ const Card: React.FC<Props> = ({ card, deleteCard, expandCard, index }) => {
             <span> {card.title} </span>
             <span onClick={() => deleteCard(card.id)}>{CLOSE_ICON_CODE}</span>
           </div>
-          <div className="card-comment-count" title={card.description}>
+          <div className='card-comment-count' title={card.description}>
             {card.comments.length ? (
               <i>{`${card.comments.length} comment(s)`}</i>
             ) : (
