@@ -32,8 +32,12 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": "npm run lint",
-    "src/**/*.{js,jsx,ts,tsx,css,md,json}": "npm run format"
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "npm run lint"
+    ],
+    "src/**/*.{js,jsx,ts,tsx,css,md,json}": [
+      "npm run format"
+    ]
   },
   "browserslist": {
     "production": [
