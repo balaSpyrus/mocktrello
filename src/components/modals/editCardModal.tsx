@@ -1,21 +1,21 @@
 import { cloneDeep } from 'lodash';
 import React, { ChangeEvent, useState } from 'react';
-import Modal from 'react-modal';
-import styled, { useTheme } from 'styled-components';
-import { StyledButton, StyledSelect } from '../../styled/common';
-import { CardType } from '../../types';
-import './editCardModal.css';
+import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE, CONFIRM_ICON_CODE } from '../../constants';
+import { StyledButton } from '../../styled/common';
+import { CardType } from '../../types';
+import {
+  StyledModal,
+  StyledModalTitle,
+  StyledCardDescription,
+  StyledModalSelect,
+  StyledCommentContainer,
+} from '../../styled/modal.styles';
 
 interface Props {
   card: CardType;
   onClose: (cardToSave?: CardType) => void;
 }
-
-const StyledModalSelect = styled(StyledSelect)`
-  width: 100%;
-  color: #474747;
-`;
 
 const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
   const theme = useTheme();
@@ -57,22 +57,16 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
   };
 
   return (
-    <Modal
+    <StyledModal
       isOpen
       onRequestClose={() => onClose()}
       className='Modal'
       overlayClassName='Overlay'
       appElement={document.getElementById('root') as HTMLDivElement}
     >
-      <div className='edit-modal-title'>
+      <StyledModalTitle>
         {titleIsOpen ? (
-          <input
-            type='text'
-            className='on-edit-modal-title'
-            name='title'
-            onChange={onChange}
-            value={card.title}
-          />
+          <input type='text' name='title' onChange={onChange} value={card.title} />
         ) : (
           <h2>{card.title}</h2>
         )}
@@ -80,17 +74,12 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
           className={titleIsOpen ? 'close' : 'edit'}
           onClick={() => setTitleIsOpen((prev) => !prev)}
         />
-      </div>
+      </StyledModalTitle>
       <div>
-        <label className='model-label'>description</label>
-        <div className='card-desc'>
+        <label>description</label>
+        <StyledCardDescription>
           {descriptionIsOpen ? (
-            <textarea
-              value={card.description}
-              onChange={onChange}
-              name='description'
-              className='edit-text-area'
-            />
+            <textarea value={card.description} onChange={onChange} name='description' />
           ) : (
             <i>{card.description}</i>
           )}
@@ -98,10 +87,10 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
             className={descriptionIsOpen ? 'close' : 'edit'}
             onClick={() => setDescriptionIsOpen((prev) => !prev)}
           />
-        </div>
+        </StyledCardDescription>
       </div>
       <div>
-        <label className='model-label'>status</label>
+        <label>status</label>
         <StyledModalSelect value={card.priority} name='priority' onChange={onChange}>
           <option value={0}>new</option>
           <option value={1}>investigate</option>
@@ -112,27 +101,25 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
         </StyledModalSelect>
       </div>
       <div>
-        <label className='model-label'>comments</label>
-        <div className='card-comment-container'>
+        <label>comments</label>
+        <StyledCommentContainer>
           <div>
             {card.comments.map((comment, i) => (
-              <span className='comment' key={i}>
+              <span key={i}>
                 <i>{comment}</i>
-                <span className='comment-delete' onClick={() => deleteComment(i)}>
-                  {CLOSE_ICON_CODE}
-                </span>
+                <span onClick={() => deleteComment(i)}>{CLOSE_ICON_CODE}</span>
               </span>
             ))}
           </div>
+
           <input
             type='text'
             value={comment}
-            className='add-comment'
             placeholder='type and press enter to add comment'
             onChange={onInputChange}
             onKeyDown={addComment}
           />
-        </div>
+        </StyledCommentContainer>
       </div>
       <div>
         <StyledButton $bgcolor={theme.pallete.SUCCESS} onClick={onSave}>
@@ -142,7 +129,7 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
           {CLOSE_ICON_CODE}
         </StyledButton>
       </div>
-    </Modal>
+    </StyledModal>
   );
 };
 

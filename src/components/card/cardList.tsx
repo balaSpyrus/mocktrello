@@ -1,13 +1,19 @@
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import styled, { useTheme } from 'styled-components';
-import { CardType, DashBoardDataType } from '../../types';
-import EditCardModal from '../modals/editCardModal';
-import AddEntity from '../addEntity';
-import Card from './card';
+import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE } from '../../constants';
 import { StyledButton } from '../../styled/common';
+import { CardType, DashBoardDataType } from '../../types';
+import AddEntity from '../addEntity';
+import EditCardModal from '../modals/editCardModal';
+import Card from './card';
+import {
+  StyledListContainer,
+  StyledTitleContainer,
+  StyledCardContainer,
+  StyledAddContainer,
+} from '../../styled/card.styles';
 
 interface Props {
   index: number;
@@ -15,57 +21,6 @@ interface Props {
   updateDashBoard: (data: DashBoardDataType[0][0]) => void;
   onDelete: (id: number) => void;
 }
-
-const StyledAddContainer = styled.div`
-  padding: 0px 12px 12px 12px;
-
-  & > * {
-    padding: 8px !important;
-    width: 198px !important;
-    min-width: 198px !important;
-  }
-`;
-
-const StyledListContainer = styled.div<{ $isDraggingOver?: boolean }>`
-  min-width: 240px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: ${({ $isDraggingOver }) => ($isDraggingOver ? 'white' : '#dfdfdf')};
-  border: 1px solid #b3b3b3;
-  box-shadow: ${({ $isDraggingOver }) =>
-    $isDraggingOver ? '2px 6px 10px 10px #cfc8c8' : ' 2px 6px 5px 1px #cfc8c8'};
-  color: #3b3b3b;
-  border-radius: 4px;
-  max-height: calc(100% - 12px);
-  transition: 200ms all ease-in-out;
-`;
-
-const StyledTitleContainer = styled.div`
-  padding: 12px;
-  font-weight: 900;
-  text-transform: capitalize;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyledCardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0px 12px 12px 12px;
-  overflow: auto;
-  gap: 16px;
-
-  .no-card {
-    padding: 10px 0px;
-    text-align: center;
-    width: calc(100% - 10px);
-    border-radius: 4px;
-    background: #f6f6f6;
-  }
-`;
 
 const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete, index }) => {
   const theme = useTheme();
@@ -154,7 +109,7 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
                 {placeholder}
               </StyledCardContainer>
               <StyledAddContainer>
-                <AddEntity infoText='add a card...' onSave={addCard} />
+                <AddEntity infoText='Add a card...' onSave={addCard} />
               </StyledAddContainer>
               {expandedCard && <EditCardModal card={expandedCard} onClose={closeModal} />}
             </StyledListContainer>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { CardType } from '../../types';
-import './card.css';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE } from '../../constants';
+import { CardType } from '../../types';
+import { StyledCard, StyledCardTitle } from '../../styled/card.styles';
 
 interface Props {
   index: number;
@@ -13,56 +14,52 @@ interface Props {
   moveCard: any;
 }
 
-const Card: React.FC<Props> = ({ card, deleteCard, expandCard, index }) => {
+const Card: React.FC<Props> = ({
+  card: { comments, description, id, priority, title },
+  deleteCard,
+  expandCard,
+  index,
+}) => {
+  const theme = useTheme();
   const getTitleColor = (priority: number) => {
-    const classNames = ['card-title'];
-
     switch (`${priority}`) {
       case '1':
-        classNames.push('investigate');
-        break;
+        return theme.pallete.ORANGE;
       case '2':
-        classNames.push('in-progress');
-        break;
+        return theme.pallete.WARNING;
       case '3':
-        classNames.push('done');
-        break;
+        return theme.pallete.SUCCESS;
       case '4':
-        classNames.push('critical');
-        break;
+        return theme.pallete.ERROR;
       case '5':
-        classNames.push('hold');
-        break;
+        return theme.pallete.GREY;
       default:
-        classNames.push('new');
-        break;
+        return theme.pallete.BLUE;
     }
-
-    return classNames.join(' ');
   };
 
   return (
-    <Draggable draggableId={`${card.id}`} key={`${card.id}`} index={index}>
+    <Draggable draggableId={`${id}`} key={`${id}`} index={index}>
       {({ dragHandleProps, draggableProps, innerRef }, { isDragging }) => (
-        <div
+        <StyledCard
+          $isDragging={isDragging}
           ref={innerRef}
-          className={isDragging ? 'card card-drag' : 'card'}
           onClick={expandCard}
           {...dragHandleProps}
           {...draggableProps}
         >
-          <div className={getTitleColor(card.priority)}>
-            <span> {card.title} </span>
-            <span onClick={() => deleteCard(card.id)}>{CLOSE_ICON_CODE}</span>
-          </div>
-          <div className='card-comment-count' title={card.description}>
-            {card.comments.length ? (
-              <i>{`${card.comments.length} comment(s)`}</i>
+          <StyledCardTitle $bgColor={getTitleColor(priority)}>
+            <span> {title} </span>
+            <span onClick={() => deleteCard(id)}>{CLOSE_ICON_CODE}</span>
+          </StyledCardTitle>
+          <div title={description}>
+            {comments.length ? (
+              <i>{`${comments.length} comment(s)`}</i>
             ) : (
               <i>Be the first to comment</i>
             )}
           </div>
-        </div>
+        </StyledCard>
       )}
     </Draggable>
   );

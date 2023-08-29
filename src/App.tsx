@@ -1,64 +1,12 @@
 import { cloneDeep } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
-import './App.css';
-import styled, { useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { AddEntity, List, NavBar } from './components';
-import { CardType, DashBoardDataType, TitleType } from './types';
 import { CLOSE_ICON_CODE } from './constants';
 import { StyledButton } from './styled/common';
-
-const StyledListContainer = styled.div`
-  margin-top: 48px;
-  height: calc(100% - 80px);
-  width: calc(100% - 32px);
-  padding: 16px;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-`;
-
-const StyledDeleteDashboard = styled.div`
-  position: absolute;
-  bottom: 24px;
-  right: 32px;
-  z-index: 999;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  border-radius: 16px;
-
-  & > button {
-    box-shadow: 4px 6px 6px 0px #787878;
-    font-size: 22px;
-    padding: 8px 14px;
-  }
-
-  & > h2 {
-    width: 140px;
-    font-size: 15px;
-    text-transform: capitalize;
-    color: #3b3b3b;
-    background: rgba(0, 0, 0, 0.206);
-    border-radius: 8px;
-    padding: 2px 6px;
-    transition: all 0.1s ease-in-out;
-    overflow: hidden;
-    opacity: 0;
-  }
-
-  &:hover > h2 {
-    opacity: 1;
-    transition: all 0.1s ease-in-out;
-  }
-`;
-
-const StyledListSection = styled.div`
-  display: flex;
-  gap: 16px;
-  overflow: auto;
-  align-items: flex-start;
-`;
+import { CardType, DashBoardDataType, TitleType } from './types';
+import { StyledListContainer, StyledDeleteDashboard, StyledListSection } from './styled/app.styles';
 
 const App: React.FC = () => {
   const theme = useTheme();
@@ -223,7 +171,7 @@ const App: React.FC = () => {
                   />
                 ))}
                 {placeholder}
-                <AddEntity infoText='add a new list...' onSave={addList} />
+                <AddEntity infoText='Add a new list...' onSave={addList} />
               </StyledListSection>
             )}
           </Droppable>

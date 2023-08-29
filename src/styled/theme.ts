@@ -1,6 +1,8 @@
 const COLORS = Object.freeze({
   BLUE: '#3081b0',
   GREY: '#3b3b3b',
+  LIGHT_GREY: '#c6c6c6',
+  VERY_LIGHT_GREY: '#e8e8e8',
   WHITE: '#ffffff',
   BLACK: '#000000',
   LIGHT_GREEN: '#759d90',
