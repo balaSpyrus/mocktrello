@@ -1,6 +1,6 @@
-import AddCard from "./card/addCard";
-import List from "./card/cardList";
-import NavBar from "./navbar/navBar";
-import EditCardModal from "./modals/editCardModal";
+import AddEntity from './addEntity';
+import List from './card/cardList';
+import NavBar from './navBar';
+import EditCardModal from './modals/editCardModal';
 
-export { AddCard, List, NavBar, EditCardModal };
+export { AddEntity, List, NavBar, EditCardModal };
