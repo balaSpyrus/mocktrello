@@ -1,20 +1,19 @@
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { AiFillCloseCircle } from 'react-icons/ai';
 import { useTheme } from 'styled-components';
-import { CLOSE_ICON_CODE } from '../../constants';
+import {
+  StyledAddContainer,
+  StyledCardContainer,
+  StyledListContainer,
+  StyledTitleContainer,
+} from '../../styled/card.styles';
 import { StyledButton } from '../../styled/common.styles';
 import { CardType, DashBoardDataType } from '../../types';
 import AddEntity from '../addEntity';
 import EditCardModal from '../modals/editCardModal';
 import Card from './card';
-import {
-  StyledListContainer,
-  StyledTitleContainer,
-  StyledCardContainer,
-  StyledAddContainer,
-} from '../../styled/card.styles';
-import { AiFillCloseCircle } from 'react-icons/ai';
 
 interface Props {
   index: number;

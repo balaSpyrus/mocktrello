@@ -1,10 +1,9 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { useTheme } from 'styled-components';
-import { CLOSE_ICON_CODE } from '../../constants';
-import { CardType } from '../../types';
-import { StyledCard, StyledCardTitle } from '../../styled/card.styles';
 import { GrFormClose } from 'react-icons/gr';
+import { useTheme } from 'styled-components';
+import { StyledCard, StyledCardTitle } from '../../styled/card.styles';
+import { CardType } from '../../types';
 
 interface Props {
   index: number;
