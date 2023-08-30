@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import React, { ChangeEvent, useState } from 'react';
 import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE, CONFIRM_ICON_CODE } from '../../constants';
-import { StyledButton } from '../../styled/common';
+import { StyledButton } from '../../styled/common.styles';
 import { CardType } from '../../types';
 import {
   StyledModal,

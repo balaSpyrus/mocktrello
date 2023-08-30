@@ -14,6 +14,11 @@ export const StyledCardTitle = styled.div<{ $bgColor: string }>`
   overflow: hidden;
   text-overflow: ellipsis;
   background: ${({ $bgColor }) => $bgColor};
+
+  & path {
+    fill: ${({ theme }) => theme.pallete.WHITE};
+    stroke: ${({ theme }) => theme.pallete.WHITE};
+  }
 `;
 
 export const StyledCard = styled.div<{ $isDragging: boolean }>`

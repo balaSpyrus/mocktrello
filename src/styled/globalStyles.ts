@@ -87,7 +87,6 @@ gap: 8px;
   content: '\\2716';
   font-size: 16px;
   cursor: pointer;
-  padding: 8px;
 }
 }
 

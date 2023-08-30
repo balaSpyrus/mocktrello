@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledSelect } from './common';
+import { StyledSelect } from './common.styles';
 import Modal from 'react-modal';
 
 export const StyledModalSelect = styled(StyledSelect)`
@@ -21,10 +21,10 @@ export const StyledModalTitle = styled.div`
   padding: 12px;
   border-radius: 4px;
   color: white;
-
+  gap: 12px;
   & input {
     height: 30px;
-    width: calc(100% - 55px);
+    width: 100%;
     border-radius: 4px;
     padding: 3px 10px;
     font-size: 20px;
@@ -97,12 +97,12 @@ export const StyledCardDescription = styled.div`
   padding: 12px;
   border-radius: 4px;
   color: ${({ theme }) => theme.pallete.GREY};
-
+  gap: 12px;
   & > textarea {
     margin: 0px;
-    width: 474px;
+    width: 475px;
     height: 100px;
-    max-width: 474px;
+    max-width: 475px;
     max-height: 100px;
     border-radius: 4px;
     font-size: 15px;

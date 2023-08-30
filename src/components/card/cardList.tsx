@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE } from '../../constants';
-import { StyledButton } from '../../styled/common';
+import { StyledButton } from '../../styled/common.styles';
 import { CardType, DashBoardDataType } from '../../types';
 import AddEntity from '../addEntity';
 import EditCardModal from '../modals/editCardModal';
@@ -14,6 +14,7 @@ import {
   StyledCardContainer,
   StyledAddContainer,
 } from '../../styled/card.styles';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 interface Props {
   index: number;
@@ -85,8 +86,8 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
             <StyledListContainer {...draggableProps} $isDraggingOver={isDraggingOver} ref={dragRef}>
               <StyledTitleContainer {...dragHandleProps}>
                 <span>{list.title}</span>
-                <StyledButton $bgcolor={theme.pallete.ERROR} onClick={() => onDelete(list.id)}>
-                  {CLOSE_ICON_CODE}
+                <StyledButton $bgcolor={'transparent'} onClick={() => onDelete(list.id)}>
+                  <AiFillCloseCircle size={22} color={theme.pallete.ERROR} />
                 </StyledButton>
               </StyledTitleContainer>
               <StyledCardContainer ref={innerRef} {...droppableProps}>

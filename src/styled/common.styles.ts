@@ -25,6 +25,9 @@ export const StyledButton = styled.button<{
   $bgcolor?: string;
   $color?: string;
 }>`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   border-radius: 16px;
   padding: 4px 6px;
   border: none;

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { GiConfirmed } from 'react-icons/gi';
 import { useTheme } from 'styled-components';
-import { CLOSE_ICON_CODE, CONFIRM_ICON_CODE } from '../constants';
 import { StyledAddOneElement, StyledAddOneMini } from '../styled/app.styles';
-import { StyledButton } from '../styled/common';
+import { StyledButton } from '../styled/common.styles';
 
 interface Props {
   onSave?: (title: string) => void;
@@ -48,10 +49,12 @@ const AddEntity: React.FC<Props> = ({ onSave: onSaveFromProps, infoText }) => {
       />
       <div>
         <StyledButton $bgcolor={theme.pallete.SUCCESS} onClick={title ? onSave : undefined}>
-          {CONFIRM_ICON_CODE}
+          <GiConfirmed />
+          Save
         </StyledButton>
         <StyledButton $bgcolor={theme.pallete.ERROR} onClick={toggleBtn}>
-          {CLOSE_ICON_CODE}
+          <AiFillCloseCircle />
+          Cancel
         </StyledButton>
       </div>
     </StyledAddOneMini>

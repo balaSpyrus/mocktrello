@@ -4,6 +4,7 @@ import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE } from '../../constants';
 import { CardType } from '../../types';
 import { StyledCard, StyledCardTitle } from '../../styled/card.styles';
+import { GrFormClose } from 'react-icons/gr';
 
 interface Props {
   index: number;
@@ -50,7 +51,9 @@ const Card: React.FC<Props> = ({
         >
           <StyledCardTitle $bgColor={getTitleColor(priority)}>
             <span> {title} </span>
-            <span onClick={() => deleteCard(id)}>{CLOSE_ICON_CODE}</span>
+            <span onClick={() => deleteCard(id)}>
+              <GrFormClose fontSize={16} />
+            </span>
           </StyledCardTitle>
           <div title={description}>
             {comments.length ? (

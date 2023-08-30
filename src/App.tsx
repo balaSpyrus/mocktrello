@@ -4,7 +4,7 @@ import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'reac
 import { useTheme } from 'styled-components';
 import { AddEntity, List, NavBar } from './components';
 import { CLOSE_ICON_CODE } from './constants';
-import { StyledButton } from './styled/common';
+import { StyledButton } from './styled/common.styles';
 import { CardType, DashBoardDataType, TitleType } from './types';
 import { StyledListContainer, StyledDeleteDashboard, StyledListSection } from './styled/app.styles';
 

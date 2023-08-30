@@ -62,7 +62,6 @@ const StyledAddOneContainer = styled.div`
 `;
 
 export const StyledAddOneElement = styled(StyledAddOneContainer)`
-  text-decoration: none;
   color: ${({ theme }) => theme.pallete.GREY};
   align-self: flex-start;
   font-size: 14px;
@@ -72,18 +71,23 @@ export const StyledAddOneMini = styled(StyledAddOneContainer)`
   display: flex;
   align-self: flex-start;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 
   & > input {
-    width: calc(100% - 16px);
     height: 32px;
     border-radius: 4px;
     padding: 4px 8px;
   }
 
   & > div {
+    width: 100%;
     display: flex;
-    align-self: flex-end;
+    justify-content: stretch;
     gap: 8px;
+    & > button {
+      text-align: center;
+      justify-content: center;
+      flex: 1;
+    }
   }
 `;

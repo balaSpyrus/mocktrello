@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledSelect, StyledButton } from './common';
+import { StyledSelect, StyledButton } from './common.styles';
 
 export const StyledNavSelect = styled(StyledSelect)`
   color: ${({ theme }) => theme.pallete.WHITE};
@@ -10,13 +10,6 @@ export const StyledAddBtn = styled(StyledButton)`
   font-size: 14px;
   font-weight: 700;
   padding: 4px 8px;
-
-  &:before {
-    content: '+';
-    padding-right: 8px;
-    font-size: 18px;
-    line-height: 16px;
-  }
 `;
 
 export const StyledNav = styled.nav`

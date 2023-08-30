@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
 import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE } from '../constants';
-import { StyledButton } from '../styled/common';
+import { StyledButton } from '../styled/common.styles';
 import { TitleType } from '../types';
 import {
   StylesNavTitle,
@@ -10,6 +10,7 @@ import {
   StyledAddBtn,
   StyledNavSelect,
 } from '../styled/navbar.styles';
+import { MdOutlineDashboardCustomize } from 'react-icons/md';
 
 interface Props {
   titleInfo?: TitleType;
@@ -82,6 +83,7 @@ const NavBar: React.FC<Props> = ({
             $color={theme.pallete.BLUE}
             onClick={onClickAdd}
           >
+            <MdOutlineDashboardCustomize />
             Add New Dashboard
           </StyledAddBtn>
         )}
