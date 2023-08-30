@@ -31,6 +31,11 @@ export const StyledModalTitle = styled.div`
     color: ${({ theme }) => theme.pallete.GREY};
   }
 
+  & path {
+    fill: ${({ theme }) => theme.pallete.WHITE};
+    stroke: ${({ theme }) => theme.pallete.WHITE};
+  }
+
   & h2 {
     margin: 0;
     display: inline-block;
@@ -84,6 +89,10 @@ export const StyledCommentContainer = styled.div`
         right: 4px;
         top: 3px;
         color: white;
+        & path {
+          fill: ${({ theme }) => theme.pallete.WHITE};
+          stroke: ${({ theme }) => theme.pallete.WHITE};
+        }
       }
     }
   }

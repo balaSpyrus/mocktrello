@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useTheme } from 'styled-components';
 import { CLOSE_ICON_CODE, CONFIRM_ICON_CODE } from '../../constants';
 import { StyledButton } from '../../styled/common.styles';
@@ -11,6 +11,9 @@ import {
   StyledModalSelect,
   StyledCommentContainer,
 } from '../../styled/modal.styles';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { GrFormClose } from 'react-icons/gr';
+import { timeEnd } from 'console';
 
 interface Props {
   card: CardType;
@@ -19,6 +22,7 @@ interface Props {
 
 const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
   const theme = useTheme();
+  const lastRef = useRef<HTMLSpanElement>(null);
   const [card, setCard] = useState(cloneDeep(cardFromProps));
   const [titleIsOpen, setTitleIsOpen] = useState(false);
   const [comment, setComment] = useState('');
@@ -56,6 +60,14 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
     }));
   };
 
+  useEffect(() => {
+    const timeOut = setInterval(() => lastRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+
+    return () => {
+      clearInterval(timeOut);
+    };
+  }, [lastRef.current]);
+
   return (
     <StyledModal
       isOpen
@@ -70,10 +82,9 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
         ) : (
           <h2>{card.title}</h2>
         )}
-        <span
-          className={titleIsOpen ? 'close' : 'edit'}
-          onClick={() => setTitleIsOpen((prev) => !prev)}
-        />
+        <span onClick={() => setTitleIsOpen((prev) => !prev)}>
+          {titleIsOpen ? <GrFormClose fontSize={18} /> : <AiOutlineEdit fontSize={16} />}
+        </span>
       </StyledModalTitle>
       <div>
         <label>description</label>
@@ -83,10 +94,9 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
           ) : (
             <i>{card.description}</i>
           )}
-          <span
-            className={descriptionIsOpen ? 'close' : 'edit'}
-            onClick={() => setDescriptionIsOpen((prev) => !prev)}
-          />
+          <span onClick={() => setDescriptionIsOpen((prev) => !prev)}>
+            {descriptionIsOpen ? <GrFormClose fontSize={18} /> : <AiOutlineEdit fontSize={16} />}
+          </span>
         </StyledCardDescription>
       </div>
       <div>
@@ -105,9 +115,11 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
         <StyledCommentContainer>
           <div>
             {card.comments.map((comment, i) => (
-              <span key={i}>
+              <span key={i} ref={card.comments.length === i + 1 ? lastRef : null}>
                 <i>{comment}</i>
-                <span onClick={() => deleteComment(i)}>{CLOSE_ICON_CODE}</span>
+                <span onClick={() => deleteComment(i)}>
+                  <GrFormClose fontSize={18} />
+                </span>
               </span>
             ))}
           </div>
@@ -123,10 +135,10 @@ const EditCardModal: React.FC<Props> = ({ card: cardFromProps, onClose }) => {
       </div>
       <div>
         <StyledButton $bgcolor={theme.pallete.SUCCESS} onClick={onSave}>
-          {CONFIRM_ICON_CODE}
+          Save
         </StyledButton>
         <StyledButton $bgcolor={theme.pallete.ERROR} onClick={() => onClose?.()}>
-          {CLOSE_ICON_CODE}
+          Cancel
         </StyledButton>
       </div>
     </StyledModal>

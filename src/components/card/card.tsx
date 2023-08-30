@@ -1,6 +1,8 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { AiOutlineEdit } from 'react-icons/ai';
 import { GrFormClose } from 'react-icons/gr';
+import { MdDragIndicator } from 'react-icons/md';
 import { useTheme } from 'styled-components';
 import { StyledCard, StyledCardTitle } from '../../styled/card.styles';
 import { CardType } from '../../types';
@@ -9,7 +11,7 @@ interface Props {
   index: number;
   listId: number;
   card: CardType;
-  expandCard: () => void;
+  editCard: () => void;
   deleteCard: (id: number) => void;
   moveCard: any;
 }
@@ -17,7 +19,7 @@ interface Props {
 const Card: React.FC<Props> = ({
   card: { comments, description, id, priority, title },
   deleteCard,
-  expandCard,
+  editCard,
   index,
 }) => {
   const theme = useTheme();
@@ -41,15 +43,15 @@ const Card: React.FC<Props> = ({
   return (
     <Draggable draggableId={`${id}`} key={`${id}`} index={index}>
       {({ dragHandleProps, draggableProps, innerRef }, { isDragging }) => (
-        <StyledCard
-          $isDragging={isDragging}
-          ref={innerRef}
-          onClick={expandCard}
-          {...dragHandleProps}
-          {...draggableProps}
-        >
+        <StyledCard $isDragging={isDragging} ref={innerRef} {...draggableProps}>
           <StyledCardTitle $bgColor={getTitleColor(priority)}>
-            <span> {title} </span>
+            <div {...dragHandleProps}>
+              <MdDragIndicator />
+              <span> {title} </span>
+            </div>
+            <span onClick={editCard}>
+              <AiOutlineEdit fontSize={16} />
+            </span>
             <span onClick={() => deleteCard(id)}>
               <GrFormClose fontSize={16} />
             </span>

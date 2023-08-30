@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { MdDeleteOutline, MdDragIndicator } from 'react-icons/md';
 import { useTheme } from 'styled-components';
 import {
   StyledAddContainer,
@@ -9,7 +9,6 @@ import {
   StyledListContainer,
   StyledTitleContainer,
 } from '../../styled/card.styles';
-import { StyledButton } from '../../styled/common.styles';
 import { CardType, DashBoardDataType } from '../../types';
 import AddEntity from '../addEntity';
 import EditCardModal from '../modals/editCardModal';
@@ -83,11 +82,14 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
         <Droppable droppableId={`${list.id}`} key={`${list.id}`} type='card'>
           {({ innerRef, droppableProps, placeholder }, { isDraggingOver }) => (
             <StyledListContainer {...draggableProps} $isDraggingOver={isDraggingOver} ref={dragRef}>
-              <StyledTitleContainer {...dragHandleProps}>
-                <span>{list.title}</span>
-                <StyledButton $bgcolor={'transparent'} onClick={() => onDelete(list.id)}>
-                  <AiFillCloseCircle size={22} color={theme.pallete.ERROR} />
-                </StyledButton>
+              <StyledTitleContainer>
+                <div {...dragHandleProps}>
+                  <MdDragIndicator />
+                  <span>{list.title}</span>
+                </div>
+                <span onClick={() => onDelete(list.id)}>
+                  <MdDeleteOutline size={18} color={theme.pallete.ERROR} />
+                </span>
               </StyledTitleContainer>
               <StyledCardContainer ref={innerRef} {...droppableProps}>
                 {!list.cards.length && (
@@ -100,7 +102,7 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
                     index={i}
                     listId={list.id}
                     deleteCard={deleteCard}
-                    expandCard={() => setExpandedCard(eachCard)}
+                    editCard={() => setExpandedCard(eachCard)}
                     moveCard={moveCard}
                     card={eachCard}
                     key={i}

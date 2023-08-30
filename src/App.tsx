@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
 import { useTheme } from 'styled-components';
 import { AddEntity, List, NavBar } from './components';
-import { CLOSE_ICON_CODE } from './constants';
+import { BsFillClipboardXFill } from 'react-icons/bs';
 import { StyledButton } from './styled/common.styles';
 import { CardType, DashBoardDataType, TitleType } from './types';
 import { StyledListContainer, StyledDeleteDashboard, StyledListSection } from './styled/app.styles';
@@ -153,7 +153,7 @@ const App: React.FC = () => {
           <StyledDeleteDashboard>
             <h2>Delete Dashboard</h2>
             <StyledButton $bgcolor={theme.pallete.ERROR} onClick={deleteBoard}>
-              {CLOSE_ICON_CODE}
+              <BsFillClipboardXFill />
             </StyledButton>
           </StyledDeleteDashboard>
         )}

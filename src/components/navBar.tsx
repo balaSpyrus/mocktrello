@@ -1,16 +1,16 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
+import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { useTheme } from 'styled-components';
-import { CLOSE_ICON_CODE } from '../constants';
 import { StyledButton } from '../styled/common.styles';
-import { TitleType } from '../types';
 import {
-  StylesNavTitle,
-  StyledNav,
   NavAction,
   StyledAddBtn,
+  StyledNav,
   StyledNavSelect,
+  StylesNavTitle,
 } from '../styled/navbar.styles';
-import { MdOutlineDashboardCustomize } from 'react-icons/md';
+import { TitleType } from '../types';
+import { GrFormClose } from 'react-icons/gr';
 
 interface Props {
   titleInfo?: TitleType;
@@ -73,8 +73,8 @@ const NavBar: React.FC<Props> = ({
               onChange={onTitleChange}
               onKeyDown={onEnterPress}
             />
-            <StyledButton $bgcolor={theme.pallete.ERROR} onClick={onClickAdd}>
-              {CLOSE_ICON_CODE}
+            <StyledButton $bgcolor={'transparent'} onClick={onClickAdd}>
+              <GrFormClose fontSize={18} />
             </StyledButton>
           </div>
         ) : (

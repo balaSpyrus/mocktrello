@@ -4,12 +4,14 @@ import { StyledSelect, StyledButton } from './common.styles';
 export const StyledNavSelect = styled(StyledSelect)`
   color: ${({ theme }) => theme.pallete.WHITE};
   border-color: ${({ theme }) => theme.pallete.WHITE};
+  border-radius: 20px;
 `;
 
 export const StyledAddBtn = styled(StyledButton)`
   font-size: 14px;
   font-weight: 700;
-  padding: 4px 8px;
+  padding: 10px 12px;
+  border-radius: 20px;
 `;
 
 export const StyledNav = styled.nav`
@@ -53,16 +55,16 @@ export const StylesNavTitle = styled.div`
 export const NavAction = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 
   & > div {
     position: relative;
 
     & > input {
       height: 32px;
-      border-radius: 4px;
+      border-radius: 50px;
       color: ${({ theme }) => theme.pallete.BLUE};
-      padding: 2px 36px 2px 8px;
+      padding: 2px 24px 2px 16px;
       font-weight: 700;
       font-size: 16px;
 
@@ -74,9 +76,15 @@ export const NavAction = styled.div`
 
     & > button {
       position: absolute;
+      padding: 0;
       right: 0%;
       top: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-25%, -50%);
+      & path {
+        fill: ${({ theme }) => theme.pallete.ERROR};
+        stroke: ${({ theme }) => theme.pallete.ERROR};
+        stroke-width: 3;
+      }
     }
   }
 `;

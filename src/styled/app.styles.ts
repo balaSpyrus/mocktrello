@@ -21,9 +21,10 @@ export const StyledDeleteDashboard = styled.div`
   border-radius: 16px;
 
   & > button {
-    box-shadow: 4px 6px 6px 0px ${({ theme }) => theme.pallete.GREY};
+    box-shadow: 4px 6px 6px 0px ${({ theme }) => theme.pallete.GREY + '80'};
     font-size: 22px;
-    padding: 8px 14px;
+    padding: 12px;
+    border-radius: 24px;
   }
 
   & > h2 {
@@ -82,12 +83,11 @@ export const StyledAddOneMini = styled(StyledAddOneContainer)`
   & > div {
     width: 100%;
     display: flex;
-    justify-content: stretch;
+    justify-content: flex-end;
     gap: 8px;
     & > button {
       text-align: center;
       justify-content: center;
-      flex: 1;
     }
   }
 `;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const StyledCardTitle = styled.div<{ $bgColor: string }>`
   display: flex;
   align-items: center;
+  gap: 4px;
   justify-content: space-between;
   padding: 8px;
   font-weight: 700;
@@ -15,9 +16,20 @@ export const StyledCardTitle = styled.div<{ $bgColor: string }>`
   text-overflow: ellipsis;
   background: ${({ $bgColor }) => $bgColor};
 
-  & path {
-    fill: ${({ theme }) => theme.pallete.WHITE};
-    stroke: ${({ theme }) => theme.pallete.WHITE};
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+
+  & > span {
+    display: flex;
+    align-items: center;
+    & path {
+      fill: ${({ theme }) => theme.pallete.WHITE};
+      stroke: ${({ theme }) => theme.pallete.WHITE};
+    }
   }
 `;
 
@@ -82,6 +94,17 @@ export const StyledTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  & > span {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
 `;
 
 export const StyledCardContainer = styled.div`

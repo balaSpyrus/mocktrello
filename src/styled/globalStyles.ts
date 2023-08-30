@@ -41,7 +41,11 @@ width: 80%;
   box-shadow:  ${({ theme }) => `0px 0px 20px 0px ${theme.pallete.GREY}`};
   display: flex;
   flex-direction: column;
-  gap:16px
+  gap:16px;
+
+& path {
+        stroke-width: 3;
+      }
 }
 
 input {
@@ -59,7 +63,8 @@ input[type=text]::placeholder {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${({ theme }) => `${theme.pallete.GREY}99`}
+  background-color: ${({ theme }) => `${theme.pallete.GREY}99`};
+  z-index: 9999;
 }
 
 .Modal label{
@@ -72,7 +77,7 @@ input[type=text]::placeholder {
 .Modal>div:last-child{
 display: flex;
 align-items: center;
-justify-content: flex-end;
+justify-content: stretch;
 gap: 8px;
 }
 
@@ -80,24 +85,11 @@ gap: 8px;
   font-size: 18px;
   border-radius: 20px;
   padding: 8px 12px;
+  flex:1;
+  text-align:center;
+  display:block
 }
 
-.close{
-  &:after {
-  content: '\\2716';
-  font-size: 16px;
-  cursor: pointer;
-}
-}
-
-.edit{
-  transform: rotate(108deg);
-  &:after {
-  content: '\\270E';
-  font-size: 16px;
-  cursor: pointer;
-}
-}
 `;
 
 export default GlobalStyles;
