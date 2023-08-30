@@ -1,19 +1,17 @@
 import { cloneDeep } from 'lodash';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useTheme } from 'styled-components';
-import { CLOSE_ICON_CODE, CONFIRM_ICON_CODE } from '../../constants';
-import { StyledButton } from '../../styled/common.styles';
-import { CardType } from '../../types';
-import {
-  StyledModal,
-  StyledModalTitle,
-  StyledCardDescription,
-  StyledModalSelect,
-  StyledCommentContainer,
-} from '../../styled/modal.styles';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { GrFormClose } from 'react-icons/gr';
-import { timeEnd } from 'console';
+import { useTheme } from 'styled-components';
+import { StyledButton } from '../../styled/common.styles';
+import {
+  StyledCardDescription,
+  StyledCommentContainer,
+  StyledModal,
+  StyledModalSelect,
+  StyledModalTitle,
+} from '../../styled/modal.styles';
+import { CardType } from '../../types';
 
 interface Props {
   card: CardType;
