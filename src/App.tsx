@@ -1,12 +1,12 @@
 import { cloneDeep } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
+import { BsFillClipboardXFill } from 'react-icons/bs';
 import { useTheme } from 'styled-components';
 import { AddEntity, List, NavBar } from './components';
-import { BsFillClipboardXFill } from 'react-icons/bs';
+import { StyledDeleteDashboard, StyledListContainer, StyledListSection } from './styled/app.styles';
 import { StyledButton } from './styled/common.styles';
-import { CardType, DashBoardDataType, TitleType } from './types';
-import { StyledListContainer, StyledDeleteDashboard, StyledListSection } from './styled/app.styles';
+import { DashBoardDataType, TitleType } from './types';
 
 const App: React.FC = () => {
   const theme = useTheme();
