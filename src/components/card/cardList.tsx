@@ -94,7 +94,7 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
               <StyledCardContainer ref={innerRef} {...droppableProps}>
                 {!list.cards.length && (
                   <div className='no-card' onMouseDown={(e) => e.preventDefault()}>
-                    <i>No Card(s) available</i>
+                    No Card(s) available
                   </div>
                 )}
                 {list.cards.map((eachCard, i) => (

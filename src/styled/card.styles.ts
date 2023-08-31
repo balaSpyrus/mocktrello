@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 
-export const StyledCardTitle = styled.div<{ $bgColor: string }>`
+export const StyledChip = styled.span<{ $bgColor: string }>`
+  background: ${({ $bgColor }) => $bgColor};
+  padding: 4px 6px;
+  border-radius: 25px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+`;
+
+export const StyledCardTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
@@ -10,11 +19,10 @@ export const StyledCardTitle = styled.div<{ $bgColor: string }>`
   color: white;
   text-transform: capitalize;
   font-size: 12px;
-  border-radius: 4px 4px 0px 0px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background: ${({ $bgColor }) => $bgColor};
+  background: ${({ theme }) => theme.pallete.GREY};
 
   & > div {
     display: flex;
@@ -26,6 +34,7 @@ export const StyledCardTitle = styled.div<{ $bgColor: string }>`
   & > span {
     display: flex;
     align-items: center;
+    cursor: pointer;
     & path {
       fill: ${({ theme }) => theme.pallete.WHITE};
       stroke: ${({ theme }) => theme.pallete.WHITE};
@@ -36,30 +45,45 @@ export const StyledCardTitle = styled.div<{ $bgColor: string }>`
 export const StyledCard = styled.div<{ $isDragging: boolean }>`
   position: relative;
   background: white;
-  cursor: pointer;
-  border-radius: 4px;
   display: flex;
   flex-direction: column;
-  box-shadow: 3px 3px 0px 1px ${({ theme }) => theme.pallete.GREY + '45'};
+  border: 1px solid ${({ theme }) => theme.pallete.BLACK};
+  box-shadow: ${({ $isDragging, theme }) =>
+    $isDragging ? undefined : `2px 2px 0px 0px ${theme.pallete.BLACK}96`};
   transition: 200ms all ease-in-out;
   opacity: ${({ $isDragging }) => ($isDragging ? 0.7 : 1)};
-  transform: ${({ $isDragging }) => ($isDragging ? 'scale(0.8)' : 'scale(1)')};
 
   &:hover {
-    background: ${({ theme }) => theme.pallete.VERY_LIGHT_GREY};
+    opacity: 0.85;
+    transform: scale(0.95);
   }
+`;
 
-  & > div:first-child {
+export const StyledCardContent = styled.div<{ $bgColor: string }>`
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: ${({ theme, $bgColor }) =>
+    `repeating-linear-gradient(-55deg, ${theme.pallete.WHITE}, ${theme.pallete.WHITE} 10px, ${$bgColor}20 10px, ${$bgColor}20 20px)`};
+
+  & span:first-child {
+    font-size: 12px;
   }
-
-  & > div:last-child {
-    padding: 12px;
-    align-self: flex-end;
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    & span {
+      font-size: 12px;
+    }
   }
 `;
 
 export const StyledAddContainer = styled.div`
-  padding: 0px 12px 12px 12px;
+  padding: 12px;
+  border-top: 1px solid ${({ theme }) => theme.pallete.BLACK};
 
   & > * {
     padding: 8px !important;
@@ -73,16 +97,16 @@ export const StyledListContainer = styled.div<{ $isDraggingOver?: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   background: ${({ $isDraggingOver, theme }) =>
-    $isDraggingOver ? 'white' : theme.pallete.LIGHT_GREY};
-  border: 1px solid ${({ theme }) => theme.pallete.LIGHT_GREY};
-  box-shadow: ${({ $isDraggingOver, theme }) =>
-    $isDraggingOver
-      ? `6px 6px 10px 2px ${theme.pallete.LIGHT_GREY}75`
-      : ` 4px 4px 4px 1px ${theme.pallete.LIGHT_GREY}75`};
+    $isDraggingOver ? theme.pallete.VERY_LIGHT_GREY : theme.pallete.WHITE};
+  border: 1px solid ${({ theme }) => theme.pallete.BLACK};
+  box-shadow: 4px 4px
+    ${({ $isDraggingOver, theme }) =>
+      $isDraggingOver
+        ? `4px 2px ${theme.pallete.LIGHT_GREY}75`
+        : ` 0px 0px ${theme.pallete.LIGHT_GREY}75`};
   color: ${({ theme }) => theme.pallete.GREY};
-  border-radius: 4px;
   max-height: calc(100% - 12px);
   transition: 200ms all ease-in-out;
 `;
@@ -90,6 +114,8 @@ export const StyledListContainer = styled.div<{ $isDraggingOver?: boolean }>`
 export const StyledTitleContainer = styled.div`
   padding: 12px;
   font-weight: 900;
+  border-bottom: 1px solid ${({ theme }) => theme.pallete.BLACK};
+  background: ${({ theme }) => theme.pallete.VERY_LIGHT_GREY};
   text-transform: capitalize;
   display: flex;
   justify-content: space-between;
@@ -112,12 +138,11 @@ export const StyledCardContainer = styled.div`
   flex-direction: column;
   padding: 0px 12px 12px 12px;
   overflow: auto;
-  gap: 16px;
+  gap: 20px;
 
   .no-card {
-    padding: 10px 0px;
+    padding-top: 12px;
     text-align: center;
-    border-radius: 4px;
-    background: ${({ theme }) => theme.pallete.WHITE};
+    font-size: 12px;
   }
 `;

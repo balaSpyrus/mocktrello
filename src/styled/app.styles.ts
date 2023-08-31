@@ -57,7 +57,7 @@ const StyledAddOneContainer = styled.div`
   background: ${({ theme }) => theme.pallete.VERY_LIGHT_GREY};
   width: 214px;
   min-width: 214px;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: pointer;
   padding: 12px;
 `;
@@ -76,7 +76,7 @@ export const StyledAddOneMini = styled(StyledAddOneContainer)`
 
   & > input {
     height: 32px;
-    border-radius: 4px;
+    border-radius: 2px;
     padding: 4px 8px;
   }
 

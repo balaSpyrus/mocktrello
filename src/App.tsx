@@ -18,10 +18,12 @@ const App: React.FC = () => {
   const [selectedBoard, setSelectedBoard] = useState('');
 
   const getMockData = async () => {
+    // eslint-disable-next-line no-undef
     const data = await fetch(`${process.env.PUBLIC_URL}/mock-data.json`).then((data) =>
       data.json(),
     );
     setDashboard(data);
+    console.log(Object.keys(data));
     setSelectedBoard(Object.keys(data)[0]);
   };
 
@@ -77,37 +79,46 @@ const App: React.FC = () => {
     setSelectedBoard(Object.keys(mutatedDashboard)[0]);
   };
 
+  const onListDrag = useCallback(
+    (result: DropResult) => {
+      const { destination, source } = result;
+      setDashboard((prev) => {
+        const board = prev[selectedBoard];
+        const [removedList] = board.splice(source.index, 1);
+        board.splice(destination?.index ?? source.index, 0, removedList);
+        prev[selectedBoard] = board;
+        return prev;
+      });
+    },
+    [selectedBoard],
+  );
+
   const onCardDrag = useCallback(
     (result: DropResult) => {
-      const { destination, source, draggableId } = result;
+      const { destination, source } = result;
 
       setDashboard((prev) => {
         let destList: DashBoardDataType[0][0] | undefined;
         const listToMutate = prev[selectedBoard].find(
           ({ id }) => id === Number(source.droppableId),
         );
-        const cardToMutate = listToMutate?.cards.find(({ id }) => id === Number(draggableId));
 
-        listToMutate?.cards.splice(source.index, 1);
+        const [cardToMutate] = listToMutate?.cards.splice(source.index, 1) ?? [];
 
         if (destination?.droppableId === source.droppableId) {
-          listToMutate?.cards.splice(destination.index, 0, cardToMutate as CardType);
+          listToMutate?.cards.splice(destination.index, 0, cardToMutate);
         } else {
           destList = prev[selectedBoard].find(({ id }) => id === Number(destination?.droppableId));
-
-          destList?.cards.splice(destination?.index ?? 0, 0, cardToMutate as CardType);
+          destList?.cards.splice(destination?.index ?? source.index, 0, cardToMutate);
         }
-        return {
-          ...prev,
-          //@ts-ignore
-          [selectedBoard]: prev[selectedBoard].map((each) => {
-            if (each.id === listToMutate?.id) return listToMutate;
 
-            if (destList?.id === each.id) return destList;
+        prev[selectedBoard] = prev[selectedBoard].map((each) => {
+          if (each.id === listToMutate?.id) return listToMutate;
+          if (destList?.id === each.id) return destList;
+          return each;
+        });
 
-            return each;
-          }),
-        };
+        return prev;
       });
     },
     [selectedBoard],
@@ -127,15 +138,19 @@ const App: React.FC = () => {
       if (type === 'card') {
         onCardDrag(result);
       }
+
+      if (type === 'list') {
+        onListDrag(result);
+      }
     },
-    [onCardDrag],
+    [onCardDrag, onListDrag],
   );
 
   useEffect(() => {
     getMockData();
   }, []);
 
-  if (Object.keys(dashboard).length === 0 && !selectedBoard) {
+  if (Object.keys(dashboard).length === 0 || !selectedBoard) {
     return <></>;
   }
 
