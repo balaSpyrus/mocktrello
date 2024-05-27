@@ -1,19 +1,22 @@
-type CommonAttrType = {
-  id: number;
-  title: string;
-};
-
 export type TitleType = {
   title: string;
   version: string;
 };
 
-export type CardType = CommonAttrType & {
+type commonType = {
+  id: string;
+  title: string;
+};
+
+export interface ListDataType extends commonType {
+  cards: CardType[];
+}
+export interface CardType extends commonType {
   priority: number;
   description: string;
   comments: string[];
-};
+}
 
-export interface DashBoardDataType {
-  [key: string]: (CommonAttrType & { cards: CardType[] })[];
+export interface DashBoardDataType extends commonType {
+  lists: ListDataType[];
 }

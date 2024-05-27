@@ -9,16 +9,16 @@ import {
   StyledListContainer,
   StyledTitleContainer,
 } from '../../styled/card.styles';
-import { CardType, DashBoardDataType } from '../../types';
+import { CardType, ListDataType } from '../../types';
 import AddEntity from '../addEntity';
 import EditCardModal from '../modals/editCardModal';
 import Card from './card';
 
 interface Props {
   index: number;
-  list: DashBoardDataType[0][0];
-  updateDashBoard: (data: DashBoardDataType[0][0]) => void;
-  onDelete: (id: number) => void;
+  list: ListDataType;
+  updateDashBoard: (data: ListDataType) => void;
+  onDelete: (id: string) => void;
 }
 
 const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete, index }) => {
@@ -36,7 +36,7 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
       cards: [
         ...prev.cards,
         {
-          id: new Date().getTime(),
+          id: new Date().getTime() + '',
           title,
           priority: 0,
           description: '',
@@ -70,7 +70,7 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
     updateDashBoard(mutatedList);
   };
 
-  const deleteCard = (id: number) => {
+  const deleteCard = (id: string) => {
     const mutatedList = cloneDeep(list);
     mutatedList.cards = mutatedList.cards.filter((eachCard) => eachCard.id !== id);
     updateDashBoard(mutatedList);

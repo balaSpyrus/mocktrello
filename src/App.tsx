@@ -4,9 +4,10 @@ import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'reac
 import { BsFillClipboardXFill } from 'react-icons/bs';
 import { useTheme } from 'styled-components';
 import { AddEntity, List, NavBar } from './components';
+import { getAllDashboards } from './firebaseDB';
 import { StyledDeleteDashboard, StyledListContainer, StyledListSection } from './styled/app.styles';
 import { StyledButton } from './styled/common.styles';
-import { DashBoardDataType, TitleType } from './types';
+import { ListDataType, TitleType } from './types';
 
 const App: React.FC = () => {
   const theme = useTheme();
@@ -14,22 +15,12 @@ const App: React.FC = () => {
     title: 'Trello',
     version: '2.0',
   });
-  const [dashboard, setDashboard] = useState<DashBoardDataType>({});
-  const [selectedBoard, setSelectedBoard] = useState('');
-
-  const getMockData = async () => {
-    // eslint-disable-next-line no-undef
-    const data = await fetch(`${process.env.PUBLIC_URL}/mock-data.json`).then((data) =>
-      data.json(),
-    );
-    setDashboard(data);
-    console.log(Object.keys(data));
-    setSelectedBoard(Object.keys(data)[0]);
-  };
+  const [dashboard, setDashboard] = useState<{ [key in string]: ListDataType[] }>({});
+  const [selectedBoardId, setSelectedBoardId] = useState('');
 
   const addList = (title: string) => {
     const mutatedDashboard = cloneDeep(dashboard);
-    let currBoard = selectedBoard ?? 'default';
+    let currBoard = selectedBoardId ?? 'default';
 
     if (!mutatedDashboard[currBoard]) {
       currBoard = 'default';
@@ -37,31 +28,31 @@ const App: React.FC = () => {
     }
 
     mutatedDashboard[currBoard].push({
-      id: new Date().getTime(),
+      id: new Date().getTime() + '',
       title,
       cards: [],
     });
 
     setDashboard(mutatedDashboard);
-    setSelectedBoard(currBoard);
+    setSelectedBoardId(currBoard);
   };
 
-  const deleteList = (id: number) =>
+  const deleteList = (id: string) =>
     setDashboard((prev) => ({
       ...prev,
-      [selectedBoard]: prev[selectedBoard].filter((eachList) => eachList.id !== id),
+      [selectedBoardId]: prev[selectedBoardId].filter((eachList) => eachList.id !== id),
     }));
 
   const onDashboardChange: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
-    setSelectedBoard(e.target.value);
+    setSelectedBoardId(e.target.value);
 
-  const updateDashBoard = (list: DashBoardDataType[0][0]) => {
+  const updateDashBoard = (list: ListDataType) => {
     const mutatedDashboard = cloneDeep(dashboard);
-    const lists = mutatedDashboard[selectedBoard].map((eachList) => {
+    const lists = mutatedDashboard[selectedBoardId].map((eachList) => {
       if (eachList.id === list.id) return list;
       return eachList;
     });
-    mutatedDashboard[selectedBoard] = lists;
+    mutatedDashboard[selectedBoardId] = lists;
     setDashboard(mutatedDashboard);
   };
 
@@ -69,28 +60,28 @@ const App: React.FC = () => {
     const mutatedDashboard = cloneDeep(dashboard);
     mutatedDashboard[title] = [];
     setDashboard(mutatedDashboard);
-    setSelectedBoard(title);
+    setSelectedBoardId(title);
   };
 
   const deleteBoard = () => {
     const mutatedDashboard = cloneDeep(dashboard);
-    delete mutatedDashboard[selectedBoard];
+    delete mutatedDashboard[selectedBoardId];
     setDashboard(mutatedDashboard);
-    setSelectedBoard(Object.keys(mutatedDashboard)[0]);
+    setSelectedBoardId(Object.keys(mutatedDashboard)[0]);
   };
 
   const onListDrag = useCallback(
     (result: DropResult) => {
       const { destination, source } = result;
       setDashboard((prev) => {
-        const board = prev[selectedBoard];
+        const board = prev[selectedBoardId];
         const [removedList] = board.splice(source.index, 1);
         board.splice(destination?.index ?? source.index, 0, removedList);
-        prev[selectedBoard] = board;
+        prev[selectedBoardId] = board;
         return prev;
       });
     },
-    [selectedBoard],
+    [selectedBoardId],
   );
 
   const onCardDrag = useCallback(
@@ -98,21 +89,19 @@ const App: React.FC = () => {
       const { destination, source } = result;
 
       setDashboard((prev) => {
-        let destList: DashBoardDataType[0][0] | undefined;
-        const listToMutate = prev[selectedBoard].find(
-          ({ id }) => id === Number(source.droppableId),
-        );
+        let destList: ListDataType | undefined;
+        const listToMutate = prev[selectedBoardId].find(({ id }) => id === source.droppableId);
 
         const [cardToMutate] = listToMutate?.cards.splice(source.index, 1) ?? [];
 
         if (destination?.droppableId === source.droppableId) {
           listToMutate?.cards.splice(destination.index, 0, cardToMutate);
         } else {
-          destList = prev[selectedBoard].find(({ id }) => id === Number(destination?.droppableId));
+          destList = prev[selectedBoardId].find(({ id }) => id === destination?.droppableId);
           destList?.cards.splice(destination?.index ?? source.index, 0, cardToMutate);
         }
 
-        prev[selectedBoard] = prev[selectedBoard].map((each) => {
+        prev[selectedBoardId] = prev[selectedBoardId].map((each) => {
           if (each.id === listToMutate?.id) return listToMutate;
           if (destList?.id === each.id) return destList;
           return each;
@@ -121,7 +110,7 @@ const App: React.FC = () => {
         return prev;
       });
     },
-    [selectedBoard],
+    [selectedBoardId],
   );
 
   const onDragEnd: OnDragEndResponder = useCallback(
@@ -147,11 +136,16 @@ const App: React.FC = () => {
   );
 
   useEffect(() => {
-    getMockData();
+    getAllDashboards().then((data) => {
+      setDashboard(
+        data.reduce((acc, data) => ({ ...acc, [data.title]: data.lists }), {} as typeof dashboard),
+      );
+      setSelectedBoardId(data[0].title || 'default');
+    });
   }, []);
 
-  if (Object.keys(dashboard).length === 0 || !selectedBoard) {
-    return <></>;
+  if (Object.keys(dashboard).length === 0 || !selectedBoardId) {
+    return <>Loading...</>;
   }
 
   return (
@@ -160,7 +154,7 @@ const App: React.FC = () => {
         titleInfo={titleInfo}
         dashboardList={Object.keys(dashboard)}
         onDashboardChange={onDashboardChange}
-        selectedBoard={selectedBoard}
+        selectedBoard={selectedBoardId}
         onEnter={onDashBoardTitleSave}
       />
       <StyledListContainer>
@@ -176,7 +170,7 @@ const App: React.FC = () => {
           <Droppable droppableId='container' direction='horizontal' type='list'>
             {({ droppableProps, placeholder, innerRef }) => (
               <StyledListSection ref={innerRef} {...droppableProps}>
-                {dashboard[selectedBoard]?.map((eachList, i) => (
+                {dashboard[selectedBoardId]?.map((eachList, i) => (
                   <List
                     index={i}
                     key={i}

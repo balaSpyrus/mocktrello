@@ -14,10 +14,10 @@ import { CardType } from '../../types';
 
 interface Props {
   index: number;
-  listId: number;
+  listId: string;
   card: CardType;
   editCard: () => void;
-  deleteCard: (id: number) => void;
+  deleteCard: (id: string) => void;
   moveCard: any;
 }
 
