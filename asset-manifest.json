@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/mocktrello/static/js/main.41c046b8.chunk.js",
-    "main.js.map": "/mocktrello/static/js/main.41c046b8.chunk.js.map",
+    "main.js": "/mocktrello/static/js/main.1695e23f.chunk.js",
+    "main.js.map": "/mocktrello/static/js/main.1695e23f.chunk.js.map",
     "runtime-main.js": "/mocktrello/static/js/runtime-main.35dfdc3f.js",
     "runtime-main.js.map": "/mocktrello/static/js/runtime-main.35dfdc3f.js.map",
-    "static/js/2.3d02b614.chunk.js": "/mocktrello/static/js/2.3d02b614.chunk.js",
-    "static/js/2.3d02b614.chunk.js.map": "/mocktrello/static/js/2.3d02b614.chunk.js.map",
+    "static/js/2.9650e629.chunk.js": "/mocktrello/static/js/2.9650e629.chunk.js",
+    "static/js/2.9650e629.chunk.js.map": "/mocktrello/static/js/2.9650e629.chunk.js.map",
     "index.html": "/mocktrello/index.html",
-    "static/js/2.3d02b614.chunk.js.LICENSE.txt": "/mocktrello/static/js/2.3d02b614.chunk.js.LICENSE.txt"
+    "static/js/2.9650e629.chunk.js.LICENSE.txt": "/mocktrello/static/js/2.9650e629.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.35dfdc3f.js",
-    "static/js/2.3d02b614.chunk.js",
-    "static/js/main.41c046b8.chunk.js"
+    "static/js/2.9650e629.chunk.js",
+    "static/js/main.1695e23f.chunk.js"
   ]
 }
