@@ -17,11 +17,11 @@ import Card from './card';
 interface Props {
   index: number;
   list: ListDataType;
-  updateDashBoard: (data: ListDataType) => void;
+  updateLists: (data: ListDataType) => void;
   onDelete: (id: string) => void;
 }
 
-const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete, index }) => {
+const List: React.FC<Props> = ({ list: listFromProps, updateLists, onDelete, index }) => {
   const theme = useTheme();
   const [list, setList] = useState(listFromProps);
   const [expandedCard, setExpandedCard] = useState<CardType | null>(null);
@@ -31,21 +31,16 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
   }, [listFromProps]);
 
   const addCard = (title: string) => {
-    setList((prev) => ({
-      ...prev,
-      cards: [
-        ...prev.cards,
-        {
-          id: new Date().getTime() + '',
-          title,
-          priority: 0,
-          description: '',
-          comments: [],
-        },
-      ],
-    }));
-
-    updateDashBoard(list);
+    const mutableList = cloneDeep(list);
+    mutableList.cards.push({
+      id: new Date().getTime() + '',
+      title,
+      priority: 0,
+      description: '',
+      comments: [],
+    });
+    setList(mutableList);
+    updateLists(mutableList);
   };
 
   const closeModal = (card: CardType | null = null) => {
@@ -59,7 +54,7 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
     }
 
     setExpandedCard(null);
-    updateDashBoard(mutatedList);
+    updateLists(mutatedList);
   };
 
   const moveCard = (dragIndex: number, hoverIndex: number) => {
@@ -67,13 +62,13 @@ const List: React.FC<Props> = ({ list: listFromProps, updateDashBoard, onDelete,
     const dragCard = mutatedList.cards[dragIndex];
     mutatedList.cards.splice(dragIndex, 1);
     mutatedList.cards.splice(hoverIndex, 0, dragCard);
-    updateDashBoard(mutatedList);
+    updateLists(mutatedList);
   };
 
   const deleteCard = (id: string) => {
     const mutatedList = cloneDeep(list);
     mutatedList.cards = mutatedList.cards.filter((eachCard) => eachCard.id !== id);
-    updateDashBoard(mutatedList);
+    updateLists(mutatedList);
   };
 
   return (

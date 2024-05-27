@@ -1,13 +1,13 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, set } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
 import { BsFillClipboardXFill } from 'react-icons/bs';
 import { useTheme } from 'styled-components';
 import { AddEntity, List, NavBar } from './components';
-import { getAllDashboards } from './firebaseDB';
+import { createDashboard, deleteDashboard, getAllDashboards, updateDashboard } from './firebaseDB';
 import { StyledDeleteDashboard, StyledListContainer, StyledListSection } from './styled/app.styles';
 import { StyledButton } from './styled/common.styles';
-import { ListDataType, TitleType } from './types';
+import { DashBoardDataType, ListDataType, TitleType } from './types';
 
 const App: React.FC = () => {
   const theme = useTheme();
@@ -15,102 +15,117 @@ const App: React.FC = () => {
     title: 'Trello',
     version: '2.0',
   });
-  const [dashboard, setDashboard] = useState<{ [key in string]: ListDataType[] }>({});
-  const [selectedBoardId, setSelectedBoardId] = useState('');
+  const [dashboards, setDashboards] = useState<DashBoardDataType[]>();
+  const [selectedBoard, setSelectedBoard] = useState<DashBoardDataType>();
 
-  const addList = (title: string) => {
-    const mutatedDashboard = cloneDeep(dashboard);
-    let currBoard = selectedBoardId ?? 'default';
+  const addList = async (title: string) => {
+    if (!selectedBoard) return;
+    const mutableDashboard = cloneDeep(selectedBoard);
 
-    if (!mutatedDashboard[currBoard]) {
-      currBoard = 'default';
-      mutatedDashboard[currBoard] = [];
-    }
-
-    mutatedDashboard[currBoard].push({
+    mutableDashboard.lists.push({
       id: new Date().getTime() + '',
       title,
       cards: [],
     });
 
-    setDashboard(mutatedDashboard);
-    setSelectedBoardId(currBoard);
+    setSelectedBoard(mutableDashboard);
+    await updateDashboard(mutableDashboard.id, mutableDashboard);
+    getAllDashboards().then(setDashboards);
   };
 
-  const deleteList = (id: string) =>
-    setDashboard((prev) => ({
-      ...prev,
-      [selectedBoardId]: prev[selectedBoardId].filter((eachList) => eachList.id !== id),
-    }));
+  const deleteList = async (id: string) => {
+    if (!selectedBoard) return;
+    const mutableDashboard = cloneDeep(selectedBoard);
+
+    mutableDashboard.lists = mutableDashboard.lists.filter((eachList) => eachList.id !== id);
+
+    setSelectedBoard(mutableDashboard);
+    await updateDashboard(mutableDashboard.id, mutableDashboard);
+    getAllDashboards().then(setDashboards);
+  };
 
   const onDashboardChange: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
-    setSelectedBoardId(e.target.value);
+    setSelectedBoard(dashboards?.find((each) => each.id === e.target.value));
 
-  const updateDashBoard = (list: ListDataType) => {
-    const mutatedDashboard = cloneDeep(dashboard);
-    const lists = mutatedDashboard[selectedBoardId].map((eachList) => {
+  const updateLists = async (list: ListDataType) => {
+    if (!selectedBoard) return;
+    const mutableDashboard = cloneDeep(selectedBoard);
+
+    mutableDashboard.lists = mutableDashboard.lists.map((eachList) => {
       if (eachList.id === list.id) return list;
       return eachList;
     });
-    mutatedDashboard[selectedBoardId] = lists;
-    setDashboard(mutatedDashboard);
+
+    setSelectedBoard(mutableDashboard);
+    await updateDashboard(mutableDashboard.id, mutableDashboard);
+    getAllDashboards().then(setDashboards);
   };
 
-  const onDashBoardTitleSave = (title: string) => {
-    const mutatedDashboard = cloneDeep(dashboard);
-    mutatedDashboard[title] = [];
-    setDashboard(mutatedDashboard);
-    setSelectedBoardId(title);
+  const onDashBoardTitleSave = async (title: string) => {
+    if (!dashboards) return;
+    const newDashboard: DashBoardDataType = {
+      id: (dashboards?.length || 0) + '',
+      title,
+      lists: [],
+    };
+    setDashboards((prev) => [...(prev as DashBoardDataType[]), newDashboard]);
+    await createDashboard(newDashboard);
+    const alldashboards = await getAllDashboards();
+    setSelectedBoard(alldashboards.find((each) => each.title === title));
+    setDashboards(alldashboards);
   };
 
-  const deleteBoard = () => {
-    const mutatedDashboard = cloneDeep(dashboard);
-    delete mutatedDashboard[selectedBoardId];
-    setDashboard(mutatedDashboard);
-    setSelectedBoardId(Object.keys(mutatedDashboard)[0]);
+  const deleteBoard = async () => {
+    if (!selectedBoard || !dashboards) return;
+    const mutatedDashboard = dashboards.filter((each) => each.id !== selectedBoard.id);
+    setSelectedBoard(mutatedDashboard?.[0]);
+    await deleteDashboard(selectedBoard.id);
+    setDashboards(mutatedDashboard);
   };
 
   const onListDrag = useCallback(
-    (result: DropResult) => {
+    async (result: DropResult) => {
+      if (!selectedBoard || !dashboards) return;
       const { destination, source } = result;
-      setDashboard((prev) => {
-        const board = prev[selectedBoardId];
-        const [removedList] = board.splice(source.index, 1);
-        board.splice(destination?.index ?? source.index, 0, removedList);
-        prev[selectedBoardId] = board;
-        return prev;
-      });
+      const mutableDashboard = cloneDeep(selectedBoard);
+
+      const changedList = selectedBoard?.lists as ListDataType[];
+      const [removedList] = changedList.splice(source.index, 1);
+      changedList.splice(destination?.index ?? source.index, 0, removedList);
+      mutableDashboard.lists = changedList;
+      setSelectedBoard(mutableDashboard);
+      await updateDashboard(mutableDashboard.id, mutableDashboard);
+      setDashboards((prev) =>
+        prev?.map((each) => (each?.id === mutableDashboard.id ? mutableDashboard : each)),
+      );
     },
-    [selectedBoardId],
+    [selectedBoard],
   );
 
   const onCardDrag = useCallback(
-    (result: DropResult) => {
+    async (result: DropResult) => {
+      if (!selectedBoard || !dashboards) return;
       const { destination, source } = result;
+      let destList: ListDataType | undefined;
+      const mutableDashboard = cloneDeep(selectedBoard);
 
-      setDashboard((prev) => {
-        let destList: ListDataType | undefined;
-        const listToMutate = prev[selectedBoardId].find(({ id }) => id === source.droppableId);
+      const listToMutate = mutableDashboard.lists.find(({ id }) => id === source.droppableId);
+      const [cardToMutate] = listToMutate?.cards.splice(source.index, 1) ?? [];
 
-        const [cardToMutate] = listToMutate?.cards.splice(source.index, 1) ?? [];
+      if (destination?.droppableId === source.droppableId) {
+        listToMutate?.cards.splice(destination.index, 0, cardToMutate);
+      } else {
+        destList = mutableDashboard.lists.find(({ id }) => id === destination?.droppableId);
+        destList?.cards.splice(destination?.index ?? source.index, 0, cardToMutate);
+      }
 
-        if (destination?.droppableId === source.droppableId) {
-          listToMutate?.cards.splice(destination.index, 0, cardToMutate);
-        } else {
-          destList = prev[selectedBoardId].find(({ id }) => id === destination?.droppableId);
-          destList?.cards.splice(destination?.index ?? source.index, 0, cardToMutate);
-        }
-
-        prev[selectedBoardId] = prev[selectedBoardId].map((each) => {
-          if (each.id === listToMutate?.id) return listToMutate;
-          if (destList?.id === each.id) return destList;
-          return each;
-        });
-
-        return prev;
-      });
+      setSelectedBoard(mutableDashboard);
+      await updateDashboard(mutableDashboard.id, mutableDashboard);
+      setDashboards((prev) =>
+        prev?.map((each) => (each?.id === mutableDashboard.id ? mutableDashboard : each)),
+      );
     },
-    [selectedBoardId],
+    [selectedBoard],
   );
 
   const onDragEnd: OnDragEndResponder = useCallback(
@@ -136,15 +151,15 @@ const App: React.FC = () => {
   );
 
   useEffect(() => {
-    getAllDashboards().then((data) => {
-      setDashboard(
-        data.reduce((acc, data) => ({ ...acc, [data.title]: data.lists }), {} as typeof dashboard),
-      );
-      setSelectedBoardId(data[0].title || 'default');
-    });
+    getAllDashboards(true).then(setDashboards);
   }, []);
 
-  if (Object.keys(dashboard).length === 0 || !selectedBoardId) {
+  useEffect(() => {
+    if (dashboards?.length && !selectedBoard)
+      setSelectedBoard(dashboards.find((each) => !!each.lists.length) || dashboards[0]);
+  }, [dashboards, selectedBoard]);
+
+  if (!dashboards) {
     return (
       <div
         style={{
@@ -164,39 +179,43 @@ const App: React.FC = () => {
     <div className='App'>
       <NavBar
         titleInfo={titleInfo}
-        dashboardList={Object.keys(dashboard)}
+        dashboards={dashboards}
         onDashboardChange={onDashboardChange}
-        selectedBoard={selectedBoardId}
+        selectedBoard={selectedBoard}
         onEnter={onDashBoardTitleSave}
       />
       <StyledListContainer>
-        {Object.keys(dashboard).length > 1 && (
-          <StyledDeleteDashboard>
-            <h2>Delete Dashboard</h2>
-            <StyledButton $bgcolor={theme.pallete.ERROR} onClick={deleteBoard}>
-              <BsFillClipboardXFill />
-            </StyledButton>
-          </StyledDeleteDashboard>
+        {dashboards?.length ? (
+          <>
+            <StyledDeleteDashboard>
+              <h2>Delete Dashboard</h2>
+              <StyledButton $bgcolor={theme.pallete.ERROR} onClick={deleteBoard}>
+                <BsFillClipboardXFill />
+              </StyledButton>
+            </StyledDeleteDashboard>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId='container' direction='horizontal' type='list'>
+                {({ droppableProps, placeholder, innerRef }) => (
+                  <StyledListSection ref={innerRef} {...droppableProps}>
+                    {selectedBoard?.lists.map((eachList, i) => (
+                      <List
+                        index={i}
+                        key={eachList.id}
+                        list={eachList}
+                        updateLists={updateLists}
+                        onDelete={deleteList}
+                      />
+                    ))}
+                    {placeholder}
+                    <AddEntity infoText='Add a new list...' onSave={addList} />
+                  </StyledListSection>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </>
+        ) : (
+          <></>
         )}
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId='container' direction='horizontal' type='list'>
-            {({ droppableProps, placeholder, innerRef }) => (
-              <StyledListSection ref={innerRef} {...droppableProps}>
-                {dashboard[selectedBoardId]?.map((eachList, i) => (
-                  <List
-                    index={i}
-                    key={i}
-                    list={eachList}
-                    updateDashBoard={updateDashBoard}
-                    onDelete={deleteList}
-                  />
-                ))}
-                {placeholder}
-                <AddEntity infoText='Add a new list...' onSave={addList} />
-              </StyledListSection>
-            )}
-          </Droppable>
-        </DragDropContext>
       </StyledListContainer>
     </div>
   );

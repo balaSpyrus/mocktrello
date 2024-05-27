@@ -54,9 +54,9 @@ export const insertMockData = async (): Promise<DashBoardDataType[]> => {
   return getAllDashboards();
 };
 
-export const getAllDashboards = async () => {
+export const getAllDashboards = async (useMock = false) => {
   const data = await getDocs(collectionRef);
-  if (data.empty) {
+  if (data.empty && useMock) {
     return insertMockData();
   } else {
     return data.docs.map((each) => ({ ...each.data(), id: each.id } as DashBoardDataType));

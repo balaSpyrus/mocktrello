@@ -26,7 +26,7 @@ export const StyledNav = styled.nav`
   width: calc(100% - 32px);
   max-height: 32px;
   min-height: 32px;
-  padding: 8px 16px;
+  padding: 12px 16px;
   box-shadow: ${({ theme }) => `0px 4px 6px 0px ${theme.pallete.BLACK}4d`};
   z-index: 100;
 `;

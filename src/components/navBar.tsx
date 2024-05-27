@@ -9,21 +9,21 @@ import {
   StyledNavSelect,
   StylesNavTitle,
 } from '../styled/navbar.styles';
-import { TitleType } from '../types';
+import { DashBoardDataType, TitleType } from '../types';
 import { GrFormClose } from 'react-icons/gr';
 
 interface Props {
   titleInfo?: TitleType;
   onEnter?: any;
-  dashboardList: string[];
+  dashboards: DashBoardDataType[];
   onDashboardChange: React.ChangeEventHandler<HTMLSelectElement>;
-  selectedBoard?: string;
+  selectedBoard?: DashBoardDataType;
 }
 
 const NavBar: React.FC<Props> = ({
   titleInfo,
   onEnter,
-  dashboardList,
+  dashboards,
   onDashboardChange,
   selectedBoard,
 }) => {
@@ -87,11 +87,15 @@ const NavBar: React.FC<Props> = ({
             Add New Dashboard
           </StyledAddBtn>
         )}
-        {dashboardList.length ? (
-          <StyledNavSelect onChange={onDashboardChange} value={selectedBoard} $caratColor='white'>
-            {dashboardList.map((dashboard, i) => (
-              <option key={i} value={dashboard}>
-                {`${dashboard} dashboard`}
+        {dashboards.length ? (
+          <StyledNavSelect
+            onChange={onDashboardChange}
+            value={selectedBoard?.id}
+            $caratColor='white'
+          >
+            {dashboards.map(({ id, title }, i) => (
+              <option key={i} value={id}>
+                {`${title} dashboard`}
               </option>
             ))}
           </StyledNavSelect>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledListContainer = styled.div`
-  margin-top: 48px;
+  margin-top: 56px;
   height: calc(100% - 80px);
   width: calc(100% - 32px);
   padding: 16px;
@@ -28,13 +28,12 @@ export const StyledDeleteDashboard = styled.div`
   }
 
   & > h2 {
-    width: 140px;
-    font-size: 15px;
+    font-size: 14px;
     text-transform: capitalize;
     color: ${({ theme }) => theme.pallete.GREY};
     background: ${({ theme }) => `${theme.pallete.BLACK}35`};
     border-radius: 8px;
-    padding: 2px 6px;
+    padding: 6px 12px;
     transition: all 0.1s ease-in-out;
     overflow: hidden;
     opacity: 0;

@@ -83,7 +83,7 @@ export const StyledCommentContainer = styled.div`
       border-radius: 20px;
       min-height: 14px;
       & > span {
-        padding: 0px 3px;
+        padding: 0px 4px;
         cursor: pointer;
         position: absolute;
         right: 4px;
@@ -114,7 +114,7 @@ export const StyledCardDescription = styled.div`
     max-width: 475px;
     max-height: 100px;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 14px;
     color: ${({ theme }) => theme.pallete.GREY};
   }
 `;
