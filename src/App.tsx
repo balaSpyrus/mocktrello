@@ -1,4 +1,4 @@
-import { cloneDeep, set } from 'lodash';
+import { cloneDeep } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
 import { BsFillClipboardXFill } from 'react-icons/bs';
