@@ -8,7 +8,7 @@ import {
   StyledCardContainer,
   StyledListContainer,
   StyledTitleContainer,
-} from '../../styled/card.styles';
+} from './card.styles';
 import { CardType, ListDataType } from '../../types';
 import AddEntity from '../addEntity';
 import EditCardModal from '../modals/editCardModal';

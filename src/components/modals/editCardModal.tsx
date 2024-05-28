@@ -3,15 +3,16 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { GrFormClose } from 'react-icons/gr';
 import { useTheme } from 'styled-components';
-import { StyledButton } from '../../styled/common.styles';
-import {
-  StyledCardDescription,
-  StyledCommentContainer,
-  StyledModal,
-  StyledModalSelect,
-  StyledModalTitle,
-} from '../../styled/modal.styles';
+import { StyledButton } from '../common/common.styles';
+
 import { CardType } from '../../types';
+import {
+  StyledModal,
+  StyledModalTitle,
+  StyledCardDescription,
+  StyledModalSelect,
+  StyledCommentContainer,
+} from './modal.styles';
 
 interface Props {
   card: CardType;

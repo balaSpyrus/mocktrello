@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { StyledSelect } from './common.styles';
 import Modal from 'react-modal';
+import { StyledSelect } from '../common/common.styles';
 
 export const StyledModalSelect = styled(StyledSelect)`
   width: 100%;

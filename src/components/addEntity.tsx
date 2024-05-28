@@ -3,7 +3,7 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { GiConfirmed } from 'react-icons/gi';
 import { useTheme } from 'styled-components';
 import { StyledAddOneElement, StyledAddOneMini } from '../styled/app.styles';
-import { StyledButton } from '../styled/common.styles';
+import { StyledButton } from './common/common.styles';
 
 interface Props {
   onSave?: (title: string) => void;

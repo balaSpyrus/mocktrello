@@ -1,16 +1,18 @@
 import { cloneDeep } from 'lodash';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd';
 import { BsFillClipboardXFill } from 'react-icons/bs';
 import { useTheme } from 'styled-components';
 import { AddEntity, List, NavBar } from './components';
+import { Loader } from './components/common/loader';
 import { createDashboard, deleteDashboard, getAllDashboards, updateDashboard } from './firebaseDB';
 import { StyledDeleteDashboard, StyledListContainer, StyledListSection } from './styled/app.styles';
-import { StyledButton } from './styled/common.styles';
+import { StyledButton } from './components/common/common.styles';
 import { DashBoardDataType, ListDataType, TitleType } from './types';
 
 const App: React.FC = () => {
   const theme = useTheme();
+  const initialUpdateTime = useRef<number | undefined>();
   const [titleInfo] = useState<TitleType>({
     title: 'Trello',
     version: '2.0',
@@ -20,28 +22,29 @@ const App: React.FC = () => {
 
   const addList = async (title: string) => {
     if (!selectedBoard) return;
-    const mutableDashboard = cloneDeep(selectedBoard);
 
-    mutableDashboard.lists.push({
-      id: new Date().getTime() + '',
-      title,
-      cards: [],
-    });
-
-    setSelectedBoard(mutableDashboard);
-    await updateDashboard(mutableDashboard.id, mutableDashboard);
-    getAllDashboards().then(setDashboards);
+    setSelectedBoard((prev) => ({
+      ...(prev as DashBoardDataType),
+      updatedAt: Date.now(),
+      lists: [
+        ...(prev?.lists as ListDataType[]),
+        {
+          id: new Date().getTime() + '',
+          title,
+          cards: [],
+        },
+      ],
+    }));
   };
 
   const deleteList = async (id: string) => {
     if (!selectedBoard) return;
-    const mutableDashboard = cloneDeep(selectedBoard);
 
-    mutableDashboard.lists = mutableDashboard.lists.filter((eachList) => eachList.id !== id);
-
-    setSelectedBoard(mutableDashboard);
-    await updateDashboard(mutableDashboard.id, mutableDashboard);
-    getAllDashboards().then(setDashboards);
+    setSelectedBoard((prev) => ({
+      ...(prev as DashBoardDataType),
+      updatedAt: Date.now(),
+      lists: (prev?.lists as ListDataType[]).filter((eachList) => eachList.id !== id),
+    }));
   };
 
   const onDashboardChange: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
@@ -49,16 +52,15 @@ const App: React.FC = () => {
 
   const updateLists = async (list: ListDataType) => {
     if (!selectedBoard) return;
-    const mutableDashboard = cloneDeep(selectedBoard);
 
-    mutableDashboard.lists = mutableDashboard.lists.map((eachList) => {
-      if (eachList.id === list.id) return list;
-      return eachList;
-    });
-
-    setSelectedBoard(mutableDashboard);
-    await updateDashboard(mutableDashboard.id, mutableDashboard);
-    getAllDashboards().then(setDashboards);
+    setSelectedBoard((prev) => ({
+      ...(prev as DashBoardDataType),
+      updatedAt: Date.now(),
+      lists: (prev?.lists as ListDataType[]).map((eachList) => {
+        if (eachList.id === list.id) return list;
+        return eachList;
+      }),
+    }));
   };
 
   const onDashBoardTitleSave = async (title: string) => {
@@ -87,17 +89,16 @@ const App: React.FC = () => {
     async (result: DropResult) => {
       if (!selectedBoard || !dashboards) return;
       const { destination, source } = result;
-      const mutableDashboard = cloneDeep(selectedBoard);
 
-      const changedList = selectedBoard?.lists as ListDataType[];
+      const changedList = cloneDeep(selectedBoard?.lists) as ListDataType[];
       const [removedList] = changedList.splice(source.index, 1);
       changedList.splice(destination?.index ?? source.index, 0, removedList);
-      mutableDashboard.lists = changedList;
-      setSelectedBoard(mutableDashboard);
-      await updateDashboard(mutableDashboard.id, mutableDashboard);
-      setDashboards((prev) =>
-        prev?.map((each) => (each?.id === mutableDashboard.id ? mutableDashboard : each)),
-      );
+
+      setSelectedBoard((prev) => ({
+        ...(prev as DashBoardDataType),
+        updatedAt: Date.now(),
+        lists: changedList,
+      }));
     },
     [selectedBoard],
   );
@@ -107,23 +108,29 @@ const App: React.FC = () => {
       if (!selectedBoard || !dashboards) return;
       const { destination, source } = result;
       let destList: ListDataType | undefined;
-      const mutableDashboard = cloneDeep(selectedBoard);
-
-      const listToMutate = mutableDashboard.lists.find(({ id }) => id === source.droppableId);
+      const listToMutate = cloneDeep(
+        selectedBoard.lists.find(({ id }) => id === source.droppableId),
+      ) as ListDataType;
       const [cardToMutate] = listToMutate?.cards.splice(source.index, 1) ?? [];
 
       if (destination?.droppableId === source.droppableId) {
         listToMutate?.cards.splice(destination.index, 0, cardToMutate);
       } else {
-        destList = mutableDashboard.lists.find(({ id }) => id === destination?.droppableId);
+        destList = cloneDeep(selectedBoard.lists.find(({ id }) => id === destination?.droppableId));
         destList?.cards.splice(destination?.index ?? source.index, 0, cardToMutate);
       }
 
-      setSelectedBoard(mutableDashboard);
-      await updateDashboard(mutableDashboard.id, mutableDashboard);
-      setDashboards((prev) =>
-        prev?.map((each) => (each?.id === mutableDashboard.id ? mutableDashboard : each)),
-      );
+      setSelectedBoard((prev) => ({
+        ...(prev as DashBoardDataType),
+        updatedAt: Date.now(),
+        lists: (prev?.lists as ListDataType[]).map((eachList) =>
+          eachList.id === listToMutate.id
+            ? listToMutate
+            : destList?.id === eachList.id
+            ? destList
+            : eachList,
+        ),
+      }));
     },
     [selectedBoard],
   );
@@ -155,8 +162,17 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (dashboards?.length && !selectedBoard)
-      setSelectedBoard(dashboards.find((each) => !!each.lists.length) || dashboards[0]);
+    if (selectedBoard && selectedBoard?.updatedAt !== initialUpdateTime.current) {
+      updateDashboard(selectedBoard).then(() => getAllDashboards().then(setDashboards));
+    }
+  }, [selectedBoard?.updatedAt]);
+
+  useEffect(() => {
+    if (dashboards?.length && !selectedBoard) {
+      const selected = dashboards.find((each) => !!each.lists.length) || dashboards[0];
+      initialUpdateTime.current = selected.updatedAt;
+      setSelectedBoard(selected);
+    }
   }, [dashboards, selectedBoard]);
 
   if (!dashboards) {
@@ -170,7 +186,7 @@ const App: React.FC = () => {
           justifyContent: 'center',
         }}
       >
-        Loading...
+        <Loader />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledSelect, StyledButton } from './common.styles';
+import { StyledButton, StyledSelect } from '../common/common.styles';
 
 export const StyledNavSelect = styled(StyledSelect)`
   color: ${({ theme }) => theme.pallete.WHITE};

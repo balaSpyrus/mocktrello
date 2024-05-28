@@ -18,5 +18,6 @@ export interface CardType extends commonType {
 }
 
 export interface DashBoardDataType extends commonType {
+  updatedAt?: number;
   lists: ListDataType[];
 }

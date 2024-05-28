@@ -33,8 +33,8 @@ export const db = getFirestore(app);
 const COLLECTION_NAME = 'trello_board';
 const collectionRef = collection(db, COLLECTION_NAME);
 
-export const updateDashboard = async (id: string, newData: DashBoardDataType) => {
-  const userDoc = doc(db, COLLECTION_NAME, id);
+export const updateDashboard = async (newData: DashBoardDataType) => {
+  const userDoc = doc(db, COLLECTION_NAME, newData.id);
   await updateDoc(userDoc, newData as Record<string, any>);
 };
 

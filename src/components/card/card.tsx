@@ -4,12 +4,7 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { GrFormClose } from 'react-icons/gr';
 import { MdDragIndicator } from 'react-icons/md';
 import { useTheme } from 'styled-components';
-import {
-  StyledCard,
-  StyledCardContent,
-  StyledCardTitle,
-  StyledChip,
-} from '../../styled/card.styles';
+import { StyledCard, StyledCardContent, StyledCardTitle, StyledChip } from './card.styles';
 import { CardType } from '../../types';
 
 interface Props {

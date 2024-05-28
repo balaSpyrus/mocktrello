@@ -1,16 +1,17 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { useTheme } from 'styled-components';
-import { StyledButton } from '../styled/common.styles';
+
+import { GrFormClose } from 'react-icons/gr';
+import { StyledButton } from '../common/common.styles';
+import { TitleType, DashBoardDataType } from '../../types';
 import {
+  StylesNavTitle,
+  StyledNav,
   NavAction,
   StyledAddBtn,
-  StyledNav,
   StyledNavSelect,
-  StylesNavTitle,
-} from '../styled/navbar.styles';
-import { DashBoardDataType, TitleType } from '../types';
-import { GrFormClose } from 'react-icons/gr';
+} from './navbar.styles';
 
 interface Props {
   titleInfo?: TitleType;
